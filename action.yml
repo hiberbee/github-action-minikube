@@ -11,7 +11,5 @@ inputs:
     required: false
 outputs: {}
 runs:
-  env:
-    MINIKUBE_VERSION: ${{ inputs.version }}
-  using: node12
-  main: dist/src/main.js
+  image: docker://hiberb/minikube:${{ inputs.version }}
+  using: docker
