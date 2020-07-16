@@ -3,7 +3,7 @@
     "allowJs": false,
     "alwaysStrict": true,
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,

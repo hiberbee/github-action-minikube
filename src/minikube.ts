@@ -5,8 +5,24 @@ import * as os from 'os'
 import * as io from '@actions/io'
 import * as path from 'path'
 
-export async function StartMinikube(): Promise<void> {
-  await exec.exec('minikube', ['start', '--wait=all'])
+type StartArguments = {
+  cpus?: number
+  nodes?: number
+  networkPlugin?: string
+  kubernetesVersion?: string
+}
+
+export async function StartMinikube(args: StartArguments): Promise<void> {
+  await exec.exec('minikube', [
+    `nodes=${args.nodes}`,
+    `--kubernetes-version=${args.kubernetesVersion}`,
+    `--network-plugin=${args.networkPlugin}`,
+    `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
+    `--cpus=2=${args.cpus}`,
+    `--wait=all`,
+    `--interactive=false`,
+    `start`,
+  ])
 }
 
 export function getDownloadUrl(version: string): string {
@@ -16,11 +32,8 @@ export function getDownloadUrl(version: string): string {
   return `https://github.com/kubernetes/minikube/releases/download/v${version}/minikube-${platform}-amd64${suffix}`
 }
 
-export async function DownloadMinikube(): Promise<void> {
-  const version = process.env.MINIKUBE_VERSION ?? '1.12.0'
-  const url = getDownloadUrl(version)
-  const downloadPath = await tc.downloadTool(url)
-  const binPath = process.env.BIN_DIR ?? '/usr/local/bin'
+export async function DownloadMinikube(version: string, binPath: string): Promise<void> {
+  const downloadPath = await tc.downloadTool(getDownloadUrl(version))
   await io.mkdirP(binPath)
   await exec.exec('chmod', ['+x', downloadPath])
   await io.mv(downloadPath, path.join(binPath, 'minikube'))

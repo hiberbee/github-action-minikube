@@ -9,9 +9,23 @@ inputs:
     default: '1.12.0'
     description: Set minikube version
     required: false
+  kubernetes-version:
+    default: 'stable'
+    description: Set Kubernetes version
+    required: false
+  nodes:
+    default: '1'
+    description: Set number of cluster nodes
+    required: false
+  cpus:
+    default: '2'
+    description: Number of CPUs allocated to Kubernetes
+    required: false
+  network-plugin:
+    default: ''
+    description: The name of the network plugin (i.e. 'cni')
+    required: false
 outputs: {}
 runs:
-  env:
-    MINIKUBE_VERSION: ${{ inputs.version }}
   using: node12
-  main: dist/src/main.js
+  main: dist/index.js
