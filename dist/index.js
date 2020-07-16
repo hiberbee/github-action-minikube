@@ -5134,7 +5134,7 @@ function default_1(version) {
     const osPlat = os_1.default.platform();
     const platform = osPlat === 'win32' ? 'windows' : osPlat;
     const suffix = osPlat === 'win32' ? '.exe' : '';
-    return `https://storage.googleapis.com/kubernetes-release/release/v${version}/bin/${platform}/${os_1.default.arch()}/kubectl${suffix}`;
+    return `https://storage.googleapis.com/kubernetes-release/release/v${version}/bin/${platform}/amd64/kubectl${suffix}`;
 }
 exports.default = default_1;
 
