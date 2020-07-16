@@ -1374,6 +1374,41 @@ exports.debug = debug; // for test
 
 /***/ }),
 
+/***/ 160:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.start = void 0;
+const tslib_1 = __webpack_require__(422);
+const exec_1 = __webpack_require__(986);
+const os_1 = tslib_1.__importDefault(__webpack_require__(87));
+async function start(args) {
+    await exec_1.exec('minikube', [
+        `--nodes=${args.nodes}`,
+        `--addons=${args.addons.join(',')}`,
+        `--kubernetes-version=${args.kubernetesVersion}`,
+        `--network-plugin=${args.networkPlugin}`,
+        `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
+        `--cpus=${args.cpus}`,
+        `--wait=all`,
+        `--interactive=false`,
+        `start`,
+    ]);
+}
+exports.start = start;
+function default_1(version) {
+    const osPlat = os_1.default.platform();
+    const platform = osPlat === 'win32' ? 'windows' : osPlat;
+    const suffix = osPlat === 'win32' ? '.exe' : '';
+    return `https://github.com/kubernetes/minikube/releases/download/v${version}/minikube-${platform}-amd64${suffix}`;
+}
+exports.default = default_1;
+
+
+/***/ }),
+
 /***/ 211:
 /***/ (function(module) {
 
@@ -2029,20 +2064,32 @@ exports.getState = getState;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(422);
-const core = tslib_1.__importStar(__webpack_require__(470));
-const minikube_1 = __webpack_require__(790);
+const core_1 = __webpack_require__(470);
+const minikube_1 = tslib_1.__importStar(__webpack_require__(160));
+const download_1 = tslib_1.__importDefault(__webpack_require__(725));
+const kubectl_1 = tslib_1.__importDefault(__webpack_require__(803));
 async function run() {
     try {
-        await minikube_1.DownloadMinikube(core.getInput('version'), '/home/runner/bin');
-        await minikube_1.StartMinikube({
-            nodes: Number.parseInt(core.getInput('nodes')),
-            cpus: Number.parseInt(core.getInput('cpus')),
-            kubernetesVersion: core.getInput('kubernetes-version'),
-            networkPlugin: core.getInput('network-plugin'),
+        await download_1.default({
+            url: minikube_1.default(core_1.getInput('version')),
+            dir: '/home/runner/bin',
+            file: 'minikube',
+        });
+        await download_1.default({
+            url: kubectl_1.default(core_1.getInput('kubernetes-version')),
+            dir: '/home/runner/bin',
+            file: 'kubectl',
+        });
+        await minikube_1.start({
+            nodes: Number.parseInt(core_1.getInput('nodes')),
+            addons: core_1.getInput('addons').split(','),
+            cpus: Number.parseInt(core_1.getInput('cpus')),
+            kubernetesVersion: core_1.getInput('kubernetes-version'),
+            networkPlugin: core_1.getInput('network-plugin'),
         });
     }
     catch (error) {
-        core.setFailed(error.message);
+        core_1.setFailed(error.message);
     }
 }
 run().then(r => console.log(r));
@@ -5037,6 +5084,30 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
+/***/ 725:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(422);
+const core_1 = __webpack_require__(470);
+const exec_1 = __webpack_require__(986);
+const tool_cache_1 = __webpack_require__(533);
+const io_1 = __webpack_require__(1);
+const path_1 = tslib_1.__importDefault(__webpack_require__(622));
+async function default_1(args) {
+    const downloadPath = await tool_cache_1.downloadTool(args.url);
+    await io_1.mkdirP(args.dir);
+    await exec_1.exec('chmod', ['+x', downloadPath]);
+    await io_1.mv(downloadPath, path_1.default.join(args.dir, args.file));
+    core_1.addPath(args.dir);
+}
+exports.default = default_1;
+
+
+/***/ }),
+
 /***/ 747:
 /***/ (function(module) {
 
@@ -5044,56 +5115,29 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ 790:
+/***/ 794:
+/***/ (function(module) {
+
+module.exports = require("stream");
+
+/***/ }),
+
+/***/ 803:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DownloadMinikube = exports.getDownloadUrl = exports.StartMinikube = void 0;
 const tslib_1 = __webpack_require__(422);
-const core = tslib_1.__importStar(__webpack_require__(470));
-const exec = tslib_1.__importStar(__webpack_require__(986));
-const tc = tslib_1.__importStar(__webpack_require__(533));
-const os = tslib_1.__importStar(__webpack_require__(87));
-const io = tslib_1.__importStar(__webpack_require__(1));
-const path = tslib_1.__importStar(__webpack_require__(622));
-async function StartMinikube(args) {
-    await exec.exec('minikube', [
-        `--nodes=${args.nodes}`,
-        `--kubernetes-version=${args.kubernetesVersion}`,
-        `--network-plugin=${args.networkPlugin}`,
-        `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
-        `--cpus=${args.cpus}`,
-        `--wait=all`,
-        `--interactive=false`,
-        `start`,
-    ]);
-}
-exports.StartMinikube = StartMinikube;
-function getDownloadUrl(version) {
-    const osPlat = os.platform();
+const os_1 = tslib_1.__importDefault(__webpack_require__(87));
+function default_1(version) {
+    const osPlat = os_1.default.platform();
     const platform = osPlat === 'win32' ? 'windows' : osPlat;
     const suffix = osPlat === 'win32' ? '.exe' : '';
-    return `https://github.com/kubernetes/minikube/releases/download/v${version}/minikube-${platform}-amd64${suffix}`;
+    return `https://storage.googleapis.com/kubernetes-release/release/v${version}/bin/${platform}/${os_1.default.arch()}/kubectl${suffix}`;
 }
-exports.getDownloadUrl = getDownloadUrl;
-async function DownloadMinikube(version, binPath) {
-    const downloadPath = await tc.downloadTool(getDownloadUrl(version));
-    await io.mkdirP(binPath);
-    await exec.exec('chmod', ['+x', downloadPath]);
-    await io.mv(downloadPath, path.join(binPath, 'minikube'));
-    core.addPath(binPath);
-}
-exports.DownloadMinikube = DownloadMinikube;
-//# sourceMappingURL=minikube.js.map
+exports.default = default_1;
 
-/***/ }),
-
-/***/ 794:
-/***/ (function(module) {
-
-module.exports = require("stream");
 
 /***/ }),
 

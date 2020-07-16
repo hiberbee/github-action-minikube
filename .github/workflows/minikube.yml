@@ -10,7 +10,13 @@ jobs:
         uses: hiberbee/github-action-minikube@master
         with:
           kubernetes-version: v1.18.3
+          network-plugin: cni
+          addons: metrics-server,registry,ingress,dashboard
           nodes: 2
           cpus: 2
-      - name: Minikube status
+      - name: Cluster status
         run: minikube status
+      - name: Cluster information
+        run: kubectl cluster-info
+      - name: Kubernetes service
+        run: kubectl get services --all-namespaces

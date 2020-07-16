@@ -13,6 +13,10 @@ inputs:
     default: 'stable'
     description: Set Kubernetes version
     required: false
+  addons:
+    default: ''
+    description: Comma-separated list of addons (i.e. metrics-server,registry,ingress,dashboard)
+    required: false
   nodes:
     default: '1'
     description: Set number of cluster nodes

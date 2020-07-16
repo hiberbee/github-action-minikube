@@ -22,6 +22,7 @@
     "resolveJsonModule": false,
     "sourceMap": true,
     "strict": true,
+    "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "ES2020",

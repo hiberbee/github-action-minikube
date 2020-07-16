@@ -1,18 +1,30 @@
-import * as core from '@actions/core'
+import { getInput, setFailed } from '@actions/core'
 
-import { DownloadMinikube, StartMinikube } from './minikube'
+import minikubeUrl, { start } from 'src/minikube'
+import download from 'src/download'
+import kubectlUrl from 'src/kubectl'
 
 async function run(): Promise<void> {
   try {
-    await DownloadMinikube(core.getInput('version'), '/home/runner/bin')
-    await StartMinikube({
-      nodes: Number.parseInt(core.getInput('nodes')),
-      cpus: Number.parseInt(core.getInput('cpus')),
-      kubernetesVersion: core.getInput('kubernetes-version'),
-      networkPlugin: core.getInput('network-plugin'),
+    await download({
+      url: minikubeUrl(getInput('version')),
+      dir: '/home/runner/bin',
+      file: 'minikube',
+    })
+    await download({
+      url: kubectlUrl(getInput('kubernetes-version')),
+      dir: '/home/runner/bin',
+      file: 'kubectl',
+    })
+    await start({
+      nodes: Number.parseInt(getInput('nodes')),
+      addons: getInput('addons').split(','),
+      cpus: Number.parseInt(getInput('cpus')),
+      kubernetesVersion: getInput('kubernetes-version'),
+      networkPlugin: getInput('network-plugin'),
     })
   } catch (error) {
-    core.setFailed(error.message)
+    setFailed(error.message)
   }
 }
 
