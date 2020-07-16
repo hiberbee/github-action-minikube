@@ -1,0 +1,16 @@
+name: Minikube workflow
+on: push
+jobs:
+  minikube:
+    name: Start Kubernetes cluster on Minikube
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Start Minikube
+        id: minikube
+        uses: hiberbee/github-action-minikube@master
+        env:
+          MINIKUBE_VERSION: 1.12.0
+      - name: Minikube status
+        run: minikube status
+      - name: Cluster info
+        run: kubectl cluster-info

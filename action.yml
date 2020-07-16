@@ -1,0 +1,17 @@
+name: Minikube Github Action
+description: Setup Minikube and starts local cluster
+author: hiberbee
+branding:
+  icon: anchor
+  color: blue
+inputs:
+  version:
+    default: '1.12.0'
+    description: Set minikube version
+    required: false
+outputs: {}
+runs:
+  env:
+    MINIKUBE_VERSION: ${{ inputs.version }}
+  using: node12
+  main: dist/src/main.js
