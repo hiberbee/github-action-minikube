@@ -9,7 +9,7 @@ jobs:
         id: minikube
         uses: hiberbee/github-action-minikube@master
         with:
-          kubernetes-version: v1.18.3
+          kubernetes-version: 1.18.3
           network-plugin: cni
           addons: metrics-server,registry,ingress,dashboard
           nodes: 2
