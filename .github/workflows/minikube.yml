@@ -9,6 +9,8 @@ jobs:
         id: minikube
         uses: hiberbee/github-action-minikube@master
         with:
-          version: 1.12.0
+          kubernetes-version: v1.18.3
+          nodes: 2
+          cpus: 4
       - name: Minikube status
         run: minikube status

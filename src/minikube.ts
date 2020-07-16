@@ -14,7 +14,7 @@ type StartArguments = {
 
 export async function StartMinikube(args: StartArguments): Promise<void> {
   await exec.exec('minikube', [
-    `nodes=${args.nodes}`,
+    `--nodes=${args.nodes}`,
     `--kubernetes-version=${args.kubernetesVersion}`,
     `--network-plugin=${args.networkPlugin}`,
     `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,

@@ -5060,7 +5060,7 @@ const io = tslib_1.__importStar(__webpack_require__(1));
 const path = tslib_1.__importStar(__webpack_require__(622));
 async function StartMinikube(args) {
     await exec.exec('minikube', [
-        `nodes=${args.nodes}`,
+        `--nodes=${args.nodes}`,
         `--kubernetes-version=${args.kubernetesVersion}`,
         `--network-plugin=${args.networkPlugin}`,
         `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
