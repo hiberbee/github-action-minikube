@@ -1390,7 +1390,6 @@ async function start(args) {
         `--addons=${args.addons.join(',')}`,
         `--kubernetes-version=${args.kubernetesVersion}`,
         `--network-plugin=${args.networkPlugin}`,
-        `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
         `--cpus=${args.cpus}`,
         `--wait=all`,
         `--interactive=false`,

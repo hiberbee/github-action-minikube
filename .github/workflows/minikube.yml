@@ -12,7 +12,7 @@ jobs:
           kubernetes-version: 1.18.3
           network-plugin: cni
           addons: metrics-server,registry,ingress,dashboard
-          nodes: 2
+          nodes: 1
           cpus: 2
       - name: Cluster status
         run: minikube status
