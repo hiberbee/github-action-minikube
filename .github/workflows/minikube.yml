@@ -11,6 +11,6 @@ jobs:
         with:
           kubernetes-version: v1.18.3
           nodes: 2
-          cpus: 4
+          cpus: 2
       - name: Minikube status
         run: minikube status
