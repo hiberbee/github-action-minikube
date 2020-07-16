@@ -18,7 +18,7 @@ export async function StartMinikube(args: StartArguments): Promise<void> {
     `--kubernetes-version=${args.kubernetesVersion}`,
     `--network-plugin=${args.networkPlugin}`,
     `--enable-default-cni=${args.networkPlugin === 'cni' ? 'true' : 'false'}`,
-    `--cpus=2=${args.cpus}`,
+    `--cpus=${args.cpus}`,
     `--wait=all`,
     `--interactive=false`,
     `start`,
