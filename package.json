@@ -34,8 +34,7 @@
     "url": "https://github.com/vladyslavvolkov"
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "prettier": {
     "arrowParens": "avoid",

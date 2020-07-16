@@ -10,17 +10,15 @@ export type StartArguments = {
 }
 
 export function commandLineArgs(args: StartArguments): string[] {
-  return args.addons
+  let commandLine = args.addons
     .map(value => `--addons=${value}`)
-    .concat([
-      `--nodes=${args.nodes}`,
-      `--kubernetes-version=${args.kubernetesVersion}`,
-      `--network-plugin=${args.networkPlugin}`,
-      `--cpus=${args.cpus}`,
-      `--wait=all`,
-      `--interactive=false`,
-      `start`,
-    ])
+    .concat([`--nodes=${args.nodes}`, `--cpus=${args.cpus}`, `--wait=all`, `--interactive=false`, `start`])
+  commandLine = !args.kubernetesVersion
+    ? commandLine
+    : commandLine.concat(`--kubernetes-version=${args.kubernetesVersion}`)
+  commandLine = !args.networkPlugin ? commandLine : commandLine.concat(`--network-plugin=${args.networkPlugin}`)
+  commandLine = !args.nodes ? commandLine : commandLine.concat(`--nodes=${args.nodes}`)
+  return commandLine
 }
 
 export async function start(args: StartArguments): Promise<void> {

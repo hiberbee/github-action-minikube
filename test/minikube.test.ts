@@ -8,6 +8,7 @@ test('Minikube url', async () => {
 test('Minikube command line', async () => {
   const args: StartArguments = { addons: ['metric-server', 'dashboard'], cpus: 2, nodes: 1 }
   const commandLine = commandLineArgs(args).join(' ')
+  console.log(commandLine)
   expect(commandLine).toContain('--addons=metric-server')
   expect(commandLine).toContain('--addons=dashboard')
   expect(commandLine).toContain('--nodes=1')

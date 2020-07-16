@@ -1385,17 +1385,15 @@ const tslib_1 = __webpack_require__(422);
 const exec_1 = __webpack_require__(986);
 const os_1 = tslib_1.__importDefault(__webpack_require__(87));
 function commandLineArgs(args) {
-    return args.addons
+    let commandLine = args.addons
         .map(value => `--addons=${value}`)
-        .concat([
-        `--nodes=${args.nodes}`,
-        `--kubernetes-version=${args.kubernetesVersion}`,
-        `--network-plugin=${args.networkPlugin}`,
-        `--cpus=${args.cpus}`,
-        `--wait=all`,
-        `--interactive=false`,
-        `start`,
-    ]);
+        .concat([`--nodes=${args.nodes}`, `--cpus=${args.cpus}`, `--wait=all`, `--interactive=false`, `start`]);
+    commandLine = !args.kubernetesVersion
+        ? commandLine
+        : commandLine.concat(`--kubernetes-version=${args.kubernetesVersion}`);
+    commandLine = !args.networkPlugin ? commandLine : commandLine.concat(`--network-plugin=${args.networkPlugin}`);
+    commandLine = !args.nodes ? commandLine : commandLine.concat(`--nodes=${args.nodes}`);
+    return commandLine;
 }
 exports.commandLineArgs = commandLineArgs;
 async function start(args) {
