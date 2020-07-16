@@ -11,5 +11,7 @@ inputs:
     required: false
 outputs: {}
 runs:
-  image: docker://hiberb/minikube:${{ inputs.version }}
   using: docker
+  args:
+    - version=${{ inputs.version }}
+  image: docker://hiberb/minikube:latest
