@@ -28,4 +28,4 @@ async function run(): Promise<void> {
   }
 }
 
-run().then(r => console.log(r))
+run().then(() => console.log('Minikube cluster is ready'))

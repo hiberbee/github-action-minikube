@@ -1,7 +1,7 @@
 import { exec } from '@actions/exec'
 import os from 'os'
 
-type StartArguments = {
+export type StartArguments = {
   cpus?: number
   nodes?: number
   addons: string[]
@@ -9,17 +9,22 @@ type StartArguments = {
   kubernetesVersion?: string
 }
 
+export function commandLineArgs(args: StartArguments): string[] {
+  return args.addons
+    .map(value => `--addons=${value}`)
+    .concat([
+      `--nodes=${args.nodes}`,
+      `--kubernetes-version=${args.kubernetesVersion}`,
+      `--network-plugin=${args.networkPlugin}`,
+      `--cpus=${args.cpus}`,
+      `--wait=all`,
+      `--interactive=false`,
+      `start`,
+    ])
+}
+
 export async function start(args: StartArguments): Promise<void> {
-  await exec('minikube', [
-    `--nodes=${args.nodes}`,
-    `--addons=${args.addons.join(',')}`,
-    `--kubernetes-version=${args.kubernetesVersion}`,
-    `--network-plugin=${args.networkPlugin}`,
-    `--cpus=${args.cpus}`,
-    `--wait=all`,
-    `--interactive=false`,
-    `start`,
-  ])
+  await exec('minikube', commandLineArgs(args))
 }
 
 export default function (version: string): string {

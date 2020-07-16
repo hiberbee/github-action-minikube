@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Start Minikube
         id: minikube
-        uses: hiberbee/github-action-minikube@master
+        uses: hiberbee/github-action-minikube@1.0.0
         with:
           kubernetes-version: 1.18.3
           network-plugin: cni

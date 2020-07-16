@@ -1380,14 +1380,15 @@ exports.debug = debug; // for test
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.start = void 0;
+exports.start = exports.commandLineArgs = void 0;
 const tslib_1 = __webpack_require__(422);
 const exec_1 = __webpack_require__(986);
 const os_1 = tslib_1.__importDefault(__webpack_require__(87));
-async function start(args) {
-    await exec_1.exec('minikube', [
+function commandLineArgs(args) {
+    return args.addons
+        .map(value => `--addons=${value}`)
+        .concat([
         `--nodes=${args.nodes}`,
-        `--addons=${args.addons.join(',')}`,
         `--kubernetes-version=${args.kubernetesVersion}`,
         `--network-plugin=${args.networkPlugin}`,
         `--cpus=${args.cpus}`,
@@ -1395,6 +1396,10 @@ async function start(args) {
         `--interactive=false`,
         `start`,
     ]);
+}
+exports.commandLineArgs = commandLineArgs;
+async function start(args) {
+    await exec_1.exec('minikube', commandLineArgs(args));
 }
 exports.start = start;
 function default_1(version) {
@@ -2091,7 +2096,7 @@ async function run() {
         core_1.setFailed(error.message);
     }
 }
-run().then(r => console.log(r));
+run().then(() => console.log('Minikube cluster is ready'));
 //# sourceMappingURL=main.js.map
 
 /***/ }),

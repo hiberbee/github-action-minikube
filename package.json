@@ -10,7 +10,7 @@
     "clean": "rimraf build",
     "lint": "eslint --fix src/**/*.ts",
     "dist": "ncc build build/src/main.js",
-    "test": "jest",
+    "test": "npm run build & jest",
     "start": "cross-env RUNNER_TEMP=build node dist/index.js",
     "all": "npm run clean && npm run build && npm test && npm run dist && npm run clean"
   },
@@ -35,7 +35,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run all"
     }
   },
   "prettier": {
