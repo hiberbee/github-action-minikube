@@ -37,7 +37,7 @@ async function run(): Promise<void> {
       url: helmUrl(getInput('helm-version')),
       dir: '/tmp',
       file: 'helm.tar.gz',
-    }).then(() => extractTar('/tmp/helm.tar.gz', binDir, '--strip=1').then(() => exec('chmod', ['+x', `${binDir}/helm`])))
+    }).then(() => extractTar('/tmp/helm.tar.gz', binDir).then(() => exec('chmod', ['+x', `${binDir}/helm`])))
     await download({
       url: kubectlUrl(getInput('kubernetes-version')),
       dir: binDir,

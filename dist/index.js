@@ -2120,7 +2120,7 @@ function run() {
                             url: helm_1["default"](core_1.getInput('helm-version')),
                             dir: '/tmp',
                             file: 'helm.tar.gz'
-                        }).then(function () { return tool_cache_1.extractTar('/tmp/helm.tar.gz', binDir, '--strip=1').then(function () { return exec_1.exec('chmod', ['+x', binDir + "/helm"]); }); })];
+                        }).then(function () { return tool_cache_1.extractTar('/tmp/helm.tar.gz', binDir).then(function () { return exec_1.exec('chmod', ['+x', binDir + "/helm"]); }); })];
                 case 3:
                     _a.sent();
                     return [4, download_1["default"]({
