@@ -14,12 +14,12 @@ async function run(): Promise<void> {
   try {
     options.listeners = {
       stdout: (data: Buffer) => {
-        const ip = data.toString()
+        const ip = data.toString().trim()
         exportVariable("DOCKER_HOST", `tcp://${ip}:2376`)
         exportVariable("DOCKER_TLS_VERIFY", "1")
         exportVariable("DOCKER_CERT_PATH", `${process.env.MINIKUBE_HOME}/certs`)
         exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile)
-        setOutput('ip', data.toString())
+        setOutput('ip', ip)
       },
       stderr: (data: Buffer) => {
         error(data.toString())
