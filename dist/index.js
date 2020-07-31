@@ -2081,7 +2081,6 @@ var download_1 = tslib_1.__importDefault(__webpack_require__(725));
 var kubectl_1 = tslib_1.__importDefault(__webpack_require__(803));
 var helm_1 = tslib_1.__importDefault(__webpack_require__(617));
 var exec_1 = __webpack_require__(986);
-var tool_cache_1 = __webpack_require__(533);
 function run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         var options, profile, binDir, error_1;
@@ -2118,9 +2117,9 @@ function run() {
                     _a.sent();
                     return [4, download_1["default"]({
                             url: helm_1["default"](core_1.getInput('helm-version')),
-                            dir: '/tmp',
-                            file: 'helm.tar.gz'
-                        }).then(function () { return tool_cache_1.extractTar('/tmp/helm.tar.gz', binDir).then(function () { return exec_1.exec('chmod', ['+x', binDir + "/helm"]); }); })];
+                            dir: binDir,
+                            file: 'helm'
+                        })];
                 case 3:
                     _a.sent();
                     return [4, download_1["default"]({
@@ -5184,11 +5183,16 @@ function default_1(args) {
                     return [4, io_1.mkdirP(args.dir)];
                 case 2:
                     _a.sent();
-                    return [4, exec_1.exec('chmod', ['+x', downloadPath])];
+                    if (!args.url.endsWith('.tar.gz')) return [3, 4];
+                    return [4, tool_cache_1.extractTar(downloadPath, args.dir)];
                 case 3:
                     _a.sent();
-                    return [4, io_1.mv(downloadPath, path_1["default"].join(args.dir, args.file))];
-                case 4:
+                    _a.label = 4;
+                case 4: return [4, io_1.mv(downloadPath, path_1["default"].join(args.dir, args.file))];
+                case 5:
+                    _a.sent();
+                    return [4, exec_1.exec('chmod', ['+x', '-R', args.dir])];
+                case 6:
                     _a.sent();
                     core_1.addPath(args.dir);
                     return [2];

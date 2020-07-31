@@ -1,6 +1,6 @@
 import { addPath } from '@actions/core'
 import { exec } from '@actions/exec'
-import { downloadTool } from '@actions/tool-cache'
+import { downloadTool, extractTar } from '@actions/tool-cache'
 import { mkdirP, mv } from '@actions/io'
 import path from 'path'
 
@@ -13,7 +13,10 @@ type DownloadArgs = {
 export default async function (args: DownloadArgs): Promise<void> {
   const downloadPath = await downloadTool(args.url)
   await mkdirP(args.dir)
-  await exec('chmod', ['+x', downloadPath])
+  if (args.url.endsWith('.tar.gz')) {
+    await extractTar(downloadPath, args.dir)
+  }
   await mv(downloadPath, path.join(args.dir, args.file))
+  await exec('chmod', ['+x', '-R', args.dir])
   addPath(args.dir)
 }
