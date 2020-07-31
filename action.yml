@@ -15,7 +15,7 @@ inputs:
     required: false
   profile:
     default: 'minikube'
-    description: Set minikube profile
+    description: Set minikube profile name
     required: false
   addons:
     default: ''

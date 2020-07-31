@@ -2079,48 +2079,69 @@ var core_1 = __webpack_require__(470);
 var minikube_1 = tslib_1.__importStar(__webpack_require__(160));
 var download_1 = tslib_1.__importDefault(__webpack_require__(725));
 var kubectl_1 = tslib_1.__importDefault(__webpack_require__(803));
+var exec_1 = __webpack_require__(986);
 function run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var error_1;
+        var options, profile, error_1;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    options = {};
+                    profile = core_1.getInput('profile');
+                    core_1.exportVariable('MINIKUBE_PROFILE_NAME', profile);
+                    core_1.exportVariable('MINIKUBE_HOME', '/home/runner');
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 5, , 6]);
+                    options.listeners = {
+                        stdout: function (data) {
+                            var ip = data.toString();
+                            core_1.exportVariable("DOCKER_HOST", "tcp://" + ip + ":2376");
+                            core_1.exportVariable("DOCKER_TLS_VERIFY", "1");
+                            core_1.exportVariable("DOCKER_CERT_PATH", process.env.MINIKUBE_HOME + "/certs");
+                            core_1.exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile);
+                            core_1.setOutput('ip', data.toString());
+                        },
+                        stderr: function (data) {
+                            core_1.error(data.toString());
+                        }
+                    };
                     return [4, download_1["default"]({
                             url: minikube_1["default"](core_1.getInput('version')),
                             dir: '/home/runner/bin',
                             file: 'minikube'
                         })];
-                case 1:
+                case 2:
                     _a.sent();
                     return [4, download_1["default"]({
                             url: kubectl_1["default"](core_1.getInput('kubernetes-version')),
                             dir: '/home/runner/bin',
                             file: 'kubectl'
                         })];
-                case 2:
+                case 3:
                     _a.sent();
-                    core_1.exportVariable('MINIKUBE_PROFILE_NAME', core_1.getInput('profile'));
                     return [4, minikube_1.start({
                             nodes: Number.parseInt(core_1.getInput('nodes')),
                             addons: core_1.getInput('addons').split(','),
                             cpus: Number.parseInt(core_1.getInput('cpus')),
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
                             networkPlugin: core_1.getInput('network-plugin')
-                        })];
-                case 3:
-                    _a.sent();
-                    return [3, 5];
+                        }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
                 case 4:
+                    _a.sent();
+                    return [3, 6];
+                case 5:
                     error_1 = _a.sent();
                     core_1.setFailed(error_1.message);
-                    return [3, 5];
-                case 5: return [2];
+                    return [3, 6];
+                case 6: return [2];
             }
         });
     });
 }
-run().then(function () { return console.log('Minikube cluster is ready'); });
+run().then(function () {
+    core_1.info('Minikube cluster is ready');
+});
 //# sourceMappingURL=main.js.map
 
 /***/ }),

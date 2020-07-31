@@ -10,9 +10,7 @@ jobs:
         uses: hiberbee/github-action-minikube@master
         with:
           profile: github
-          kubernetes-version: 1.18.3
-          nodes: 1
-          cpus: 2
+          kubernetes-version: 1.18.6
       - name: Get Minikube status
         run: minikube status
       - name: Get Kubernetes cluster info
@@ -21,3 +19,5 @@ jobs:
         run: kubectl get services --all-namespaces
       - name: Get Docker containers
         run: docker ps
+      - name: Get Minikube IP
+        run: echo ${{ steps.minikube.outputs.ip }}

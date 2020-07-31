@@ -9,6 +9,7 @@ async function run(): Promise<void> {
   const options: ExecOptions = {}
   const profile = getInput('profile')
   exportVariable('MINIKUBE_PROFILE_NAME', profile)
+  exportVariable('MINIKUBE_HOME', '/home/runner')
 
   try {
     options.listeners = {
@@ -16,7 +17,7 @@ async function run(): Promise<void> {
         const ip = data.toString()
         exportVariable("DOCKER_HOST", `tcp://${ip}:2376`)
         exportVariable("DOCKER_TLS_VERIFY", "1")
-        exportVariable("DOCKER_CERT_PATH", `${process.env.HOME ?? '~'}/.minikube/certs`)
+        exportVariable("DOCKER_CERT_PATH", `${process.env.MINIKUBE_HOME}/certs`)
         exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile)
         setOutput('ip', data.toString())
       },
