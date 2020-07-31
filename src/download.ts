@@ -15,7 +15,7 @@ export default async function (args: DownloadArgs): Promise<void> {
   const downloadPath = await downloadTool(args.url).then()
   await mkdirP(args.dir)
   if (args.url.endsWith('tar.gz')) {
-    await exec(`tar '-xzf ${downloadPath} --directory=${args.dir} --strip=1`)
+    await exec('tar', ['-xz', `--file=${downloadPath}`, `--directory=${args.dir}`, `--strip=1`])
   } else {
     await mv(downloadPath, path.join(args.dir, args.file))
   }

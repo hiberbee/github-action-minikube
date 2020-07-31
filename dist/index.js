@@ -5222,7 +5222,7 @@ function default_1(args) {
                 case 2:
                     _a.sent();
                     if (!args.url.endsWith('tar.gz')) return [3, 4];
-                    return [4, exec_1.exec("tar '-xzf " + downloadPath + " --directory=" + args.dir + " --strip=1")];
+                    return [4, exec_1.exec('tar', ['-xz', "--file=" + downloadPath, "--directory=" + args.dir, "--strip=1"])];
                 case 3:
                     _a.sent();
                     return [3, 6];
