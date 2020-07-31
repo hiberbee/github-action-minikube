@@ -5215,22 +5215,23 @@ function default_1(args) {
         var downloadPath;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, tool_cache_1.downloadTool(args.url)];
+                case 0: return [4, tool_cache_1.downloadTool(args.url).then()];
                 case 1:
                     downloadPath = _a.sent();
                     return [4, io_1.mkdirP(args.dir)];
                 case 2:
                     _a.sent();
-                    if (!args.url.endsWith('.tar.gz')) return [3, 4];
-                    return [4, exec_1.exec('tar', ['-xzf', downloadPath, "--directory=" + args.dir, '--strip=1'])];
+                    if (!args.url.endsWith('tar.gz')) return [3, 4];
+                    return [4, exec_1.exec("tar '-xzf " + downloadPath + " --directory=" + args.dir + " --strip=1")];
                 case 3:
                     _a.sent();
-                    _a.label = 4;
+                    return [3, 6];
                 case 4: return [4, io_1.mv(downloadPath, path_1["default"].join(args.dir, args.file))];
                 case 5:
                     _a.sent();
-                    return [4, exec_1.exec('chmod', ['+x', '-R', args.dir])];
-                case 6:
+                    _a.label = 6;
+                case 6: return [4, exec_1.exec('chmod', ['+x', '-R', args.dir])];
+                case 7:
                     _a.sent();
                     core_1.addPath(args.dir);
                     return [2];
