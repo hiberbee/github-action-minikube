@@ -33,7 +33,9 @@ inputs:
     default: ''
     description: The name of the network plugin (i.e. 'cni')
     required: false
-outputs: {}
+outputs:
+  ip:
+    description: Minikube IP
 runs:
   using: node12
   main: dist/index.js

@@ -13,9 +13,11 @@ jobs:
           kubernetes-version: 1.18.3
           nodes: 1
           cpus: 2
-      - name: Cluster status
+      - name: Get Minikube status
         run: minikube status
-      - name: Cluster information
+      - name: Get Kubernetes cluster info
         run: kubectl cluster-info
-      - name: Kubernetes service
+      - name: Get Kubernetes pods
         run: kubectl get services --all-namespaces
+      - name: Get Docker containers
+        run: docker ps
