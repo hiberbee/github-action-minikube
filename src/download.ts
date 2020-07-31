@@ -3,6 +3,7 @@ import { exec } from '@actions/exec'
 import { downloadTool } from '@actions/tool-cache'
 import { mkdirP, mv } from '@actions/io'
 import path from 'path'
+import { execSync } from 'child_process'
 
 type DownloadArgs = {
   url: string
@@ -11,12 +12,13 @@ type DownloadArgs = {
 }
 
 export default async function (args: DownloadArgs): Promise<void> {
-  const downloadPath = await downloadTool(args.url)
+  const downloadPath = await downloadTool(args.url).then()
   await mkdirP(args.dir)
-  if (args.url.endsWith('.tar.gz')) {
-    await exec('tar', ['-xzf', downloadPath, `--directory=${args.dir}`, '--strip=1'])
+  if (args.url.endsWith('tar.gz')) {
+    await exec(`tar '-xzf ${downloadPath} --directory=${args.dir} --strip=1`)
+  } else {
+    await mv(downloadPath, path.join(args.dir, args.file))
   }
-  await mv(downloadPath, path.join(args.dir, args.file))
   await exec('chmod', ['+x', '-R', args.dir])
   addPath(args.dir)
 }
