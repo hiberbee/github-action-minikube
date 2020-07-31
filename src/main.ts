@@ -14,7 +14,7 @@ async function run(): Promise<void> {
   try {
     options.listeners = {
       stdout: (data: Buffer) => {
-        const ip = data.toString().trim()
+        const ip = data.toString().trim().replace(/\r?\n|\r/g, "")
         exportVariable("DOCKER_HOST", `tcp://${ip}:2376`)
         exportVariable("DOCKER_TLS_VERIFY", "1")
         exportVariable("DOCKER_CERT_PATH", `${process.env.MINIKUBE_HOME}/certs`)
