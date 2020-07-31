@@ -10,7 +10,7 @@
     "clean": "rimraf build",
     "lint": "eslint --fix src/**/*.ts",
     "dist": "ncc build build/src/main.js",
-    "test": "npm run build & jest",
+    "test": "jest",
     "start": "cross-env RUNNER_TEMP=build node dist/index.js",
     "all": "npm run clean && npm run build && npm test && npm run dist && npm run clean"
   },
@@ -18,13 +18,11 @@
     "type": "git",
     "url": "git+https://github.com/hiberbee/github-action-minikube.git"
   },
-  "jest": {
-    "rootDir": "build/test"
-  },
   "keywords": [
     "actions",
     "ci",
     "github",
+    "helm",
     "kubernetes",
     "minikube"
   ],
@@ -71,25 +69,25 @@
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/exec": "^1.0.4",
-    "@actions/tool-cache": "^1.5.5"
+    "@actions/tool-cache": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
-    "cross-env": "^7.0.2",
     "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^26.0.8",
     "@types/node": "^14.0.27",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
-    "eslint": "^7.5.0",
     "@zeit/ncc": "^0.22.3",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-github": "^4.1.1",
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
-    "jest": "^26.2.1",
+    "jest": "^26.2.2",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.1.4",

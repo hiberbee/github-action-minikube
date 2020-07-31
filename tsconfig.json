@@ -16,11 +16,16 @@
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "removeComments": true
+    "removeComments": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es2015.promise"
+    ]
   },
   "exclude": [
-    "dist",
-    "node_modules"
+    "build",
+    "dist"
   ],
   "include": [
     "src/*",

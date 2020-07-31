@@ -5,7 +5,6 @@ import kubectlUrl from 'src/kubectl'
 import helmUrl from 'src/helm'
 import { exec } from '@actions/exec'
 import { ExecOptions } from '@actions/exec/lib/interfaces'
-import { extractTar } from '@actions/tool-cache'
 
 async function run(): Promise<void> {
   const options: ExecOptions = {}
