@@ -7,16 +7,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "lib": [
-      "dom",
-      "ES6"
-    ],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
     "noEmit": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "noImplicitAny": true,
     "noImplicitThis": true,
     "resolveJsonModule": false,
@@ -25,7 +16,6 @@
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "ES2020",
     "removeComments": true
   },
   "exclude": [

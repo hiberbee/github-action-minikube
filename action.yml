@@ -37,5 +37,3 @@ outputs: {}
 runs:
   using: node12
   main: dist/index.js
-  env:
-    MINIKUBE_PROFILE_NAME: ${{ inputs.profile }}

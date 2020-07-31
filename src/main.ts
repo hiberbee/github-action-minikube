@@ -1,4 +1,4 @@
-import { getInput, setFailed } from '@actions/core'
+import { getInput, setFailed, exportVariable } from '@actions/core'
 
 import minikubeUrl, { start } from 'src/minikube'
 import download from 'src/download'
@@ -16,6 +16,7 @@ async function run(): Promise<void> {
       dir: '/home/runner/bin',
       file: 'kubectl',
     })
+    exportVariable('MINIKUBE_PROFILE_NAME', getInput('profile'))
     await start({
       nodes: Number.parseInt(getInput('nodes')),
       addons: getInput('addons').split(','),
