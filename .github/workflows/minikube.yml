@@ -17,7 +17,10 @@ jobs:
         run: kubectl cluster-info
       - name: Get Kubernetes pods
         run: kubectl get services --all-namespaces
-      - name: Get Docker containers
-        run: docker ps
       - name: Get Minikube IP
         run: echo ${{ steps.minikube.outputs.ip }}
+      - name: Get Docker containers
+        run: docker ps
+        env:
+          DOCKER_HOST: tcp://${{ steps.minikube.outputs.ip }}:2376
+

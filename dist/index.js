@@ -2095,12 +2095,12 @@ function run() {
                     _a.trys.push([1, 5, , 6]);
                     options.listeners = {
                         stdout: function (data) {
-                            var ip = data.toString();
+                            var ip = data.toString().trim();
                             core_1.exportVariable("DOCKER_HOST", "tcp://" + ip + ":2376");
                             core_1.exportVariable("DOCKER_TLS_VERIFY", "1");
                             core_1.exportVariable("DOCKER_CERT_PATH", process.env.MINIKUBE_HOME + "/certs");
                             core_1.exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile);
-                            core_1.setOutput('ip', data.toString());
+                            core_1.setOutput('ip', ip);
                         },
                         stderr: function (data) {
                             core_1.error(data.toString());
