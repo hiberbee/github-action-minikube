@@ -13,6 +13,10 @@ inputs:
     default: '1.18.6'
     description: Set Kubernetes version
     required: false
+  helm-version:
+    default: '3.2.4'
+    description: Set Helm version
+    required: false
   profile:
     default: 'minikube'
     description: Set minikube profile name

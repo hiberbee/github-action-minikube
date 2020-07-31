@@ -2079,27 +2079,30 @@ var core_1 = __webpack_require__(470);
 var minikube_1 = tslib_1.__importStar(__webpack_require__(160));
 var download_1 = tslib_1.__importDefault(__webpack_require__(725));
 var kubectl_1 = tslib_1.__importDefault(__webpack_require__(803));
+var helm_1 = tslib_1.__importDefault(__webpack_require__(617));
 var exec_1 = __webpack_require__(986);
+var tool_cache_1 = __webpack_require__(533);
 function run() {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var options, profile, error_1;
+        var options, profile, binDir, error_1;
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     options = {};
                     profile = core_1.getInput('profile');
+                    binDir = '/home/runner/bin';
                     core_1.exportVariable('MINIKUBE_PROFILE_NAME', profile);
                     core_1.exportVariable('MINIKUBE_HOME', '/home/runner');
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 5, , 6]);
+                    _a.trys.push([1, 6, , 7]);
                     options.listeners = {
                         stdout: function (data) {
                             var ip = data.toString().trim();
-                            core_1.exportVariable("DOCKER_HOST", "tcp://" + ip + ":2376");
-                            core_1.exportVariable("DOCKER_TLS_VERIFY", "1");
-                            core_1.exportVariable("DOCKER_CERT_PATH", process.env.MINIKUBE_HOME + "/.minikube/certs");
-                            core_1.exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile);
+                            core_1.exportVariable('DOCKER_HOST', "tcp://" + ip + ":2376");
+                            core_1.exportVariable('DOCKER_TLS_VERIFY', '1');
+                            core_1.exportVariable('DOCKER_CERT_PATH', process.env.MINIKUBE_HOME + "/.minikube/certs");
+                            core_1.exportVariable('MINIKUBE_ACTIVE_DOCKERD', profile);
                             core_1.setOutput('ip', ip);
                         },
                         stderr: function (data) {
@@ -2108,17 +2111,24 @@ function run() {
                     };
                     return [4, download_1["default"]({
                             url: minikube_1["default"](core_1.getInput('version')),
-                            dir: '/home/runner/bin',
+                            dir: binDir,
                             file: 'minikube'
                         })];
                 case 2:
                     _a.sent();
                     return [4, download_1["default"]({
+                            url: helm_1["default"](core_1.getInput('helm-version')),
+                            dir: '/tmp',
+                            file: 'helm.tar.gz'
+                        }).then(function () { return tool_cache_1.extractTar('/tmp/helm.tar.gz', binDir, '--strip=1').then(function () { return exec_1.exec('chmod', ['+x', binDir + "/helm"]); }); })];
+                case 3:
+                    _a.sent();
+                    return [4, download_1["default"]({
                             url: kubectl_1["default"](core_1.getInput('kubernetes-version')),
-                            dir: '/home/runner/bin',
+                            dir: binDir,
                             file: 'kubectl'
                         })];
-                case 3:
+                case 4:
                     _a.sent();
                     return [4, minikube_1.start({
                             nodes: Number.parseInt(core_1.getInput('nodes')),
@@ -2127,14 +2137,14 @@ function run() {
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
                             networkPlugin: core_1.getInput('network-plugin')
                         }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
-                case 4:
-                    _a.sent();
-                    return [3, 6];
                 case 5:
+                    _a.sent();
+                    return [3, 7];
+                case 6:
                     error_1 = _a.sent();
                     core_1.setFailed(error_1.message);
-                    return [3, 6];
-                case 6: return [2];
+                    return [3, 7];
+                case 7: return [2];
             }
         });
     });
@@ -4874,6 +4884,24 @@ module.exports = require("http");
 /***/ (function(module) {
 
 module.exports = require("events");
+
+/***/ }),
+
+/***/ 617:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+var tslib_1 = __webpack_require__(422);
+var os_1 = tslib_1.__importDefault(__webpack_require__(87));
+function default_1(version) {
+    var osPlat = os_1["default"].platform();
+    var platform = osPlat === 'win32' ? 'windows' : osPlat;
+    return "https://get.helm.sh/helm-v" + version + "-" + platform + "-amd64.tar.gz";
+}
+exports["default"] = default_1;
+
 
 /***/ }),
 
