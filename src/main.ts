@@ -17,7 +17,7 @@ async function run(): Promise<void> {
         const ip = data.toString().trim()
         exportVariable("DOCKER_HOST", `tcp://${ip}:2376`)
         exportVariable("DOCKER_TLS_VERIFY", "1")
-        exportVariable("DOCKER_CERT_PATH", `${process.env.MINIKUBE_HOME}/certs`)
+        exportVariable("DOCKER_CERT_PATH", `${process.env.MINIKUBE_HOME}/.minikube/certs`)
         exportVariable("MINIKUBE_ACTIVE_DOCKERD", profile)
         setOutput('ip', ip)
       },
