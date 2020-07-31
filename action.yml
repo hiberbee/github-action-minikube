@@ -6,12 +6,16 @@ branding:
   color: blue
 inputs:
   version:
-    default: '1.12.0'
+    default: '1.12.1'
     description: Set minikube version
     required: false
   kubernetes-version:
-    default: '1.18.3'
+    default: '1.18.6'
     description: Set Kubernetes version
+    required: false
+  profile:
+    default: 'minikube'
+    description: Set minikube profile
     required: false
   addons:
     default: ''
@@ -33,3 +37,5 @@ outputs: {}
 runs:
   using: node12
   main: dist/index.js
+  env:
+    MINIKUBE_PROFILE_NAME: ${{ inputs.profile }}

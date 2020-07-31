@@ -9,8 +9,8 @@ jobs:
         id: minikube
         uses: hiberbee/github-action-minikube@master
         with:
+          profile: github
           kubernetes-version: 1.18.3
-          addons: dashboard
           nodes: 1
           cpus: 2
       - name: Cluster status
