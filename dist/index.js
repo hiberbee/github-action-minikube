@@ -5197,16 +5197,20 @@ function default_1(url, destination) {
                     return [4, io_1.mkdirP(destinationDir)];
                 case 2:
                     _a.sent();
-                    if (!(url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz'))) return [3, 4];
-                    return [4, exec_1.exec('tar', ['-xz', "--file=" + downloadPath, "--directory=" + destinationDir, "--strip=1"])];
+                    if (!(url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz'))) return [3, 5];
+                    return [4, exec_1.exec('tar', ['-xzvf', downloadPath, "--strip=1"])];
                 case 3:
                     _a.sent();
-                    _a.label = 4;
-                case 4: return [4, io_1.mv(downloadPath, destination)];
-                case 5:
+                    return [4, io_1.mv(path_1["default"].basename(destinationDir), destinationDir)];
+                case 4:
                     _a.sent();
-                    return [4, exec_1.exec('chmod', ['+x', destination])];
+                    return [3, 7];
+                case 5: return [4, io_1.mv(downloadPath, destination)];
                 case 6:
+                    _a.sent();
+                    _a.label = 7;
+                case 7: return [4, exec_1.exec('chmod', ['+x', destination])];
+                case 8:
                     _a.sent();
                     core_1.addPath(destinationDir);
                     return [2, downloadPath];
