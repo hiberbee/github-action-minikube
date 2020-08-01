@@ -46,9 +46,8 @@ async function run(): Promise<void> {
       cpus: Number.parseInt(getInput('cpus')),
       kubernetesVersion: getInput('kubernetes-version'),
       networkPlugin: getInput('network-plugin'),
-    })
-      .then(() => cacheDir(`${process.env.MINIKUBE_HOME}/.minikube/cache`, 'minikube', minikubeVersion, platform))
-      .then(() => exec('minikube', ['ip'], options))
+    }).then(() => exec('minikube', ['ip'], options))
+    await cacheDir(`${process.env.MINIKUBE_HOME}/.minikube/cache`, 'minikube', minikubeVersion)
   } catch (error) {
     setFailed(error.message)
   }

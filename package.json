@@ -12,7 +12,7 @@
     "dist": "ncc build build/main.js",
     "test": "jest",
     "start": "cross-env RUNNER_TEMP=build node dist/index.js",
-    "all": "npm run clean && npm run build && npm run dist && npm run clean"
+    "release": "npm run clean && npm run build && npm run dist && npm run clean"
   },
   "repository": {
     "type": "git",

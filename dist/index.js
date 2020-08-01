@@ -1116,7 +1116,7 @@ function run() {
                     core_1.exportVariable('MINIKUBE_HOME', (_a = process.env.HOME) !== null && _a !== void 0 ? _a : '/home/runner');
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 6, , 7]);
+                    _b.trys.push([1, 7, , 8]);
                     options.listeners = {
                         stdout: function (data) {
                             var ip = data.toString().trim();
@@ -1145,17 +1145,18 @@ function run() {
                             cpus: Number.parseInt(core_1.getInput('cpus')),
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
                             networkPlugin: core_1.getInput('network-plugin')
-                        })
-                            .then(function () { return tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/.minikube/cache", 'minikube', minikubeVersion, platform); })
-                            .then(function () { return exec_1.exec('minikube', ['ip'], options); })];
+                        }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
                 case 5:
                     _b.sent();
-                    return [3, 7];
+                    return [4, tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/.minikube/cache", 'minikube', minikubeVersion)];
                 case 6:
+                    _b.sent();
+                    return [3, 8];
+                case 7:
                     error_1 = _b.sent();
                     core_1.setFailed(error_1.message);
-                    return [3, 7];
-                case 7: return [2];
+                    return [3, 8];
+                case 8: return [2];
             }
         });
     });

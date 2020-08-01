@@ -5,6 +5,13 @@ jobs:
     name: Start Kubernetes cluster on Minikube
     runs-on: ubuntu-20.04
     steps:
+      - name: Extract caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.minikube/cache
+          key: ${{ runner.os }}-minikube-1.12.1
+          restore-keys: |
+            ${{ runner.os }}-minikube-
       - name: Start Minikube
         id: minikube
         uses: hiberbee/github-action-minikube@master
