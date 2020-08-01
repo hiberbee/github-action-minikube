@@ -2,6 +2,7 @@ import { exec } from '@actions/exec'
 
 export type StartArguments = {
   cpus?: number
+  memory?: string
   nodes?: number
   addons: string[]
   networkPlugin?: string
@@ -16,7 +17,9 @@ export function commandLineArgs(args: StartArguments): string[] {
     ? commandLine
     : commandLine.concat(`--kubernetes-version=${args.kubernetesVersion}`)
   commandLine = !args.networkPlugin ? commandLine : commandLine.concat(`--network-plugin=${args.networkPlugin}`)
+  commandLine = !args.memory ? commandLine : commandLine.concat(`--memory=${args.memory}`)
   commandLine = !args.nodes ? commandLine : commandLine.concat(`--nodes=${args.nodes}`)
+  commandLine.concat('--install-addons=false', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver')
   return commandLine
 }
 

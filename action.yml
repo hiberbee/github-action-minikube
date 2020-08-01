@@ -6,19 +6,19 @@ branding:
   color: blue
 inputs:
   version:
-    default: '1.12.1'
+    default: 1.12.1
     description: Set minikube version
     required: false
   kubernetes-version:
-    default: '1.18.6'
+    default: 1.18.6
     description: Set Kubernetes version
     required: false
   helm-version:
-    default: '3.2.4'
+    default: 3.2.4
     description: Set Helm version
     required: false
   profile:
-    default: 'minikube'
+    default: minikube
     description: Set minikube profile name
     required: false
   addons:
@@ -31,6 +31,10 @@ inputs:
     required: false
   cpus:
     default: '2'
+    description: Number of CPUs allocated to Kubernetes
+    required: false
+  memory:
+    default: '3g'
     description: Number of CPUs allocated to Kubernetes
     required: false
   network-plugin:

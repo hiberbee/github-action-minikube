@@ -42,6 +42,7 @@ async function run(): Promise<void> {
     await download(kubectlUrl, `${binDir}/kubectl`)
     await minikube({
       nodes: Number.parseInt(getInput('nodes')),
+      memory: getInput('memory'),
       addons: getInput('addons').split(','),
       cpus: Number.parseInt(getInput('cpus')),
       kubernetesVersion: getInput('kubernetes-version'),

@@ -1141,6 +1141,7 @@ function run() {
                     _b.sent();
                     return [4, minikube_1["default"]({
                             nodes: Number.parseInt(core_1.getInput('nodes')),
+                            memory: core_1.getInput('memory'),
                             addons: core_1.getInput('addons').split(','),
                             cpus: Number.parseInt(core_1.getInput('cpus')),
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
@@ -1477,7 +1478,9 @@ function commandLineArgs(args) {
         ? commandLine
         : commandLine.concat("--kubernetes-version=" + args.kubernetesVersion);
     commandLine = !args.networkPlugin ? commandLine : commandLine.concat("--network-plugin=" + args.networkPlugin);
+    commandLine = !args.memory ? commandLine : commandLine.concat("--memory=" + args.memory);
     commandLine = !args.nodes ? commandLine : commandLine.concat("--nodes=" + args.nodes);
+    commandLine.concat('--install-addons=false', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
     return commandLine;
 }
 exports.commandLineArgs = commandLineArgs;
