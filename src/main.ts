@@ -53,6 +53,4 @@ async function run(): Promise<void> {
   }
 }
 
-run().then(() => {
-  info('Minikube cluster is ready')
-})
+run().then()

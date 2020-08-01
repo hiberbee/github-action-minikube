@@ -1161,9 +1161,7 @@ function run() {
         });
     });
 }
-run().then(function () {
-    core_1.info('Minikube cluster is ready');
-});
+run().then();
 //# sourceMappingURL=main.js.map
 
 /***/ }),
@@ -5201,7 +5199,7 @@ function default_1(url, destination) {
                     return [4, exec_1.exec('tar', ['-xzvf', downloadPath, "--strip=1"])];
                 case 3:
                     _a.sent();
-                    return [4, io_1.mv(path_1["default"].basename(destinationDir), destinationDir)];
+                    return [4, io_1.mv(path_1["default"].basename(destination), destinationDir)];
                 case 4:
                     _a.sent();
                     return [3, 7];
