@@ -1,24 +1,28 @@
 import { addPath } from '@actions/core'
 import { exec } from '@actions/exec'
 import { downloadTool } from '@actions/tool-cache'
-import { mkdirP, mv } from '@actions/io'
+import { mkdirP, cp } from '@actions/io'
 import path from 'path'
-import { execSync } from 'child_process'
 
-type DownloadArgs = {
-  url: string
-  file: string
-  dir: string
-}
+/**
+ * Downloader helper function
+ * - downloads file from URL;
+ * - extracts if tar archive recognized from url;
+ * - makes executable
+ * - add to path
+ * @param url link to download
+ * @param destination full path
+ */
+export default async function (url: string, destination: string): Promise<string> {
+  const downloadPath = await downloadTool(url)
 
-export default async function (args: DownloadArgs): Promise<void> {
-  const downloadPath = await downloadTool(args.url).then()
-  await mkdirP(args.dir)
-  if (args.url.endsWith('tar.gz')) {
-    await exec('tar', ['-xz', `--file=${downloadPath}`, `--directory=${args.dir}`, `--strip=1`])
-  } else {
-    await mv(downloadPath, path.join(args.dir, args.file))
+  const destinationDir = path.dirname(destination)
+  await mkdirP(destinationDir)
+  if (url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz')) {
+    await exec('tar', ['-xz', `--file=${downloadPath}`, `--directory=${destinationDir}`, `--strip=1`])
   }
-  await exec('chmod', ['+x', '-R', args.dir])
-  addPath(args.dir)
+  await cp(downloadPath, destination)
+  await exec('chmod', ['+x', destination])
+  addPath(destinationDir)
+  return downloadPath
 }

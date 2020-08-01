@@ -3,16 +3,16 @@
   "version": "1.1.0",
   "private": true,
   "description": "Start a Kubernetes cluster with Minikube in github actions",
-  "main": "build/src/main.js",
+  "main": "build/main.js",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf build",
     "lint": "eslint --fix src/**/*.ts",
-    "dist": "ncc build build/src/main.js",
+    "dist": "ncc build build/main.js",
     "test": "jest",
     "start": "cross-env RUNNER_TEMP=build node dist/index.js",
-    "all": "npm run clean && npm run build && npm test && npm run dist && npm run clean"
+    "all": "npm run clean && npm run build && npm run dist && npm run clean"
   },
   "repository": {
     "type": "git",

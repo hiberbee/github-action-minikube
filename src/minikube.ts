@@ -1,5 +1,4 @@
 import { exec } from '@actions/exec'
-import os from 'os'
 
 export type StartArguments = {
   cpus?: number
@@ -21,13 +20,6 @@ export function commandLineArgs(args: StartArguments): string[] {
   return commandLine
 }
 
-export async function start(args: StartArguments): Promise<void> {
+export default async function (args: StartArguments): Promise<void> {
   await exec('minikube', commandLineArgs(args))
-}
-
-export default function (version: string): string {
-  const osPlat = os.platform()
-  const platform = osPlat === 'win32' ? 'windows' : osPlat
-  const suffix = osPlat === 'win32' ? '.exe' : ''
-  return `https://github.com/kubernetes/minikube/releases/download/v${version}/minikube-${platform}-amd64${suffix}`
 }

@@ -1,21 +1,31 @@
 import { getInput, setFailed, exportVariable, setOutput, error, info } from '@actions/core'
-import minikubeUrl, { start } from 'src/minikube'
+import minikube from 'src/minikube'
 import download from 'src/download'
-import kubectlUrl from 'src/kubectl'
-import helmUrl from 'src/helm'
 import { exec } from '@actions/exec'
 import { ExecOptions } from '@actions/exec/lib/interfaces'
+import { cacheDir } from '@actions/tool-cache'
+import os from 'os'
 
 async function run(): Promise<void> {
+  const osPlat = os.platform()
+  const platform = osPlat === 'win32' ? 'windows' : osPlat
+  const suffix = osPlat === 'win32' ? '.exe' : ''
+  const minikubeVersion = getInput('version')
+  const helmVersion = getInput('helm-version')
+  const kubernetesVersion = getInput('kubernetes-version')
+  const minikubeUrl = `https://github.com/kubernetes/minikube/releases/download/v${minikubeVersion}/minikube-${platform}-amd64${suffix}`
+  const kubectlUrl = `https://storage.googleapis.com/kubernetes-release/release/v${kubernetesVersion}/bin/${platform}/amd64/kubectl${suffix}`
+  const helmUrl = `https://get.helm.sh/helm-v${helmVersion}-${platform}-amd64.tar.gz`
+
   const options: ExecOptions = {}
   const profile = getInput('profile')
-  const binDir = '/home/runner/bin'
+  const binDir = `${process.env.HOME}/bin`
   exportVariable('MINIKUBE_PROFILE_NAME', profile)
-  exportVariable('MINIKUBE_HOME', '/home/runner')
+  exportVariable('MINIKUBE_HOME', process.env.HOME ?? '/home/runner')
 
   try {
     options.listeners = {
-      stdout: (data) => {
+      stdout: data => {
         const ip = data.toString().trim()
         exportVariable('DOCKER_HOST', `tcp://${ip}:2376`)
         exportVariable('DOCKER_TLS_VERIFY', '1')
@@ -27,29 +37,18 @@ async function run(): Promise<void> {
         error(data.toString())
       },
     }
-    await download({
-      url: minikubeUrl(getInput('version')),
-      dir: binDir,
-      file: 'minikube',
-    })
-    await download({
-      url: helmUrl(getInput('helm-version')),
-      dir: binDir,
-      file: 'helm',
-    })
-    await download({
-      url: kubectlUrl(getInput('kubernetes-version')),
-      dir: binDir,
-      file: 'kubectl',
-    })
-    await start({
+    await download(minikubeUrl, `${binDir}/minikube`)
+    await download(helmUrl, `${binDir}/helm`)
+    await download(kubectlUrl, `${binDir}/kubectl`)
+    await minikube({
       nodes: Number.parseInt(getInput('nodes')),
       addons: getInput('addons').split(','),
       cpus: Number.parseInt(getInput('cpus')),
       kubernetesVersion: getInput('kubernetes-version'),
       networkPlugin: getInput('network-plugin'),
-    }).then(() => exec('minikube', ['ip'], options))
-
+    })
+      .then(() => cacheDir(`${process.env.MINIKUBE_HOME}/.minikube/cache`, 'minikube', minikubeVersion, platform))
+      .then(() => exec('minikube', ['ip'], options))
   } catch (error) {
     setFailed(error.message)
   }
