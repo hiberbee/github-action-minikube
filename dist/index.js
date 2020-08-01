@@ -5201,7 +5201,7 @@ function default_1(url, destination) {
                 case 3:
                     _a.sent();
                     _a.label = 4;
-                case 4: return [4, io_1.cp(downloadPath, destination)];
+                case 4: return [4, io_1.mv(downloadPath, destination)];
                 case 5:
                     _a.sent();
                     return [4, exec_1.exec('chmod', ['+x', destination])];
