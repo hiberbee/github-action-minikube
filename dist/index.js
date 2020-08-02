@@ -1471,14 +1471,13 @@ exports.commandLineArgs = void 0;
 var tslib_1 = __webpack_require__(422);
 var exec_1 = __webpack_require__(986);
 function commandLineArgs(args) {
-    var commandLine = args.addons
-        .map(function (value) { return "--addons=" + value; })
-        .concat(["--nodes=" + args.nodes, "--cpus=" + args.cpus, "--wait=all", "--interactive=false", "start"]);
+    var commandLine = args.addons ? args.addons.map(function (value) { return "--addons=" + value; }) : [];
     commandLine = !args.kubernetesVersion
         ? commandLine
         : commandLine.concat("--kubernetes-version=" + args.kubernetesVersion);
     commandLine = !args.networkPlugin ? commandLine : commandLine.concat("--network-plugin=" + args.networkPlugin);
     commandLine = !args.memory ? commandLine : commandLine.concat("--memory=" + args.memory);
+    commandLine = !args.cpus ? commandLine : commandLine.concat("--cpus=" + args.cpus);
     commandLine = !args.nodes ? commandLine : commandLine.concat("--nodes=" + args.nodes);
     commandLine.concat('--install-addons=false', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
     return commandLine;
@@ -1488,7 +1487,7 @@ function default_1(args) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
         return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, exec_1.exec('minikube', commandLineArgs(args))];
+                case 0: return [4, exec_1.exec('minikube', commandLineArgs(args).concat('start'))];
                 case 1:
                     _a.sent();
                     return [2];
