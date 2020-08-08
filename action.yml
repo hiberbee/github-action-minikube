@@ -6,7 +6,7 @@ branding:
   color: blue
 inputs:
   version:
-    default: 1.12.1
+    default: 1.12.2
     description: Set minikube version
     required: false
   kubernetes-version:

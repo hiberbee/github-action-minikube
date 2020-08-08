@@ -9,7 +9,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.minikube/cache
-          key: ${{ runner.os }}-minikube-1.12.1
+          key: ${{ runner.os }}-minikube-1.12.2
           restore-keys: |
             ${{ runner.os }}-minikube-
       - name: Start Minikube
