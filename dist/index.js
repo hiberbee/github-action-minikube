@@ -1162,7 +1162,7 @@ function run() {
         });
     });
 }
-run().then();
+run();
 //# sourceMappingURL=main.js.map
 
 /***/ }),

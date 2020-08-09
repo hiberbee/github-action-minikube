@@ -54,4 +54,5 @@ async function run(): Promise<void> {
   }
 }
 
-run().then()
+// noinspection JSIgnoredPromiseFromCall
+run()

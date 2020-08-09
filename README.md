@@ -39,33 +39,44 @@ jobs:
 - `DOCKER_TLS_VERIFY` - 1
 - `DOCKER_CERT_PATH` - `$MINIKUBE_HOME/certs/`
 
-### Example
+## Example
 
 ```yaml
 name: Minikube workflow
 on: push
 jobs:
   minikube:
-    name: Start Kubernetes cluster on Minikube
-    runs-on: ubuntu-latest
+    name: Start Kubernetes cluster
+    runs-on: ubuntu-20.04
     steps:
       - name: Start Minikube
         id: minikube
-        uses: hiberbee/github-action-minikube@master
+        uses: hiberbee/github-action-minikube@latest
         with:
-          kubernetes-version: 1.18.3
-          network-plugin: cni
-          addons: metrics-server,ingress
-          nodes: 1
-          cpus: 2
+          profile: github
+
       - name: Get Minikube status
         run: minikube status
-      - name: Get Kubernetes cluster info
+
+      - name: Get cluster info
         run: kubectl cluster-info
+
       - name: Get Kubernetes pods
         run: kubectl get services --all-namespaces
-      - name: Get Docker containers
-        run: docker ps
+
       - name: Get Minikube IP
         run: echo ${{ steps.minikube.outputs.ip }}
+
+      - name: Get Docker containers
+        run: docker ps
+
+      - name: Get Helm releases
+        uses: hiberbee/github-action-helm@latest
+        with:
+          helm-command: list
 ```
+
+## Companion Actions
+
+- [`hiberbee/github-action-skaffold@latest`](https://github.com/hiberbee/github-action-skaffold)
+- [`hiberbee/github-action-helm@latest`](https://github.com/hiberbee/github-action-helm)

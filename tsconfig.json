@@ -23,12 +23,7 @@
       "es2015.promise"
     ]
   },
-  "exclude": [
-    "build",
-    "dist"
-  ],
   "include": [
-    "src/*",
-    "test/*"
+    "src/*"
   ]
 }
