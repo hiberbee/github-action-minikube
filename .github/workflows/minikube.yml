@@ -1,5 +1,9 @@
 name: Minikube workflow
-on: push
+on:
+  push:
+    paths:
+      - dist/index.js
+      - .github/workflows/minikube.yml
 jobs:
   minikube:
     name: Start Kubernetes cluster

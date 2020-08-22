@@ -7,7 +7,7 @@ Downloads `minikube` and `kubectl` binaries, then set up Minikube cluster for Gi
 | Name | Description | Default |
 | ---- | ----------- | ------- |
 | `minikube-version` | Set minikube version | 1.12.3 |
-| `kubernetes-version` | Set Kubernetes version | 1.18.6 |
+| `kubernetes-version` | Set Kubernetes version | 1.18.8 |
 | `profile` | Set minikube profile name | minikube |
 | `network-plugin` | The name of the network plugin (i.e. 'cni') | n/a |
 | `addons` | Comma-separated list of addons (i.e. metrics-server,registry,ingress,dashboard) | default-storageclass, storage-provisioner |
