@@ -10,12 +10,10 @@ async function run(): Promise<void> {
   const osPlat = os.platform()
   const platform = osPlat === 'win32' ? 'windows' : osPlat
   const suffix = osPlat === 'win32' ? '.exe' : ''
-  const minikubeVersion = getInput('version')
-  const helmVersion = getInput('helm-version')
+  const minikubeVersion = getInput('minikube-version')
   const kubernetesVersion = getInput('kubernetes-version')
   const minikubeUrl = `https://github.com/kubernetes/minikube/releases/download/v${minikubeVersion}/minikube-${platform}-amd64${suffix}`
   const kubectlUrl = `https://storage.googleapis.com/kubernetes-release/release/v${kubernetesVersion}/bin/${platform}/amd64/kubectl${suffix}`
-  const helmUrl = `https://get.helm.sh/helm-v${helmVersion}-${platform}-amd64.tar.gz`
 
   const options: ExecOptions = {}
   const profile = getInput('profile')
@@ -38,7 +36,6 @@ async function run(): Promise<void> {
       },
     }
     await download(minikubeUrl, `${binDir}/minikube`)
-    await download(helmUrl, `${binDir}/helm`)
     await download(kubectlUrl, `${binDir}/kubectl`)
     await minikube({
       nodes: Number.parseInt(getInput('nodes')),

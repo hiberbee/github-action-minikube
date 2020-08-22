@@ -5,17 +5,13 @@ branding:
   icon: anchor
   color: blue
 inputs:
-  version:
-    default: 1.12.2
+  minikube-version:
+    default: 1.12.3
     description: Set minikube version
     required: false
   kubernetes-version:
     default: 1.18.6
     description: Set Kubernetes version
-    required: false
-  helm-version:
-    default: 3.2.4
-    description: Set Helm version
     required: false
   profile:
     default: minikube

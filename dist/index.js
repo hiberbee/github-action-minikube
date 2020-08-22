@@ -1096,19 +1096,17 @@ var os_1 = tslib_1.__importDefault(__webpack_require__(87));
 function run() {
     var _a;
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var osPlat, platform, suffix, minikubeVersion, helmVersion, kubernetesVersion, minikubeUrl, kubectlUrl, helmUrl, options, profile, binDir, error_1;
+        var osPlat, platform, suffix, minikubeVersion, kubernetesVersion, minikubeUrl, kubectlUrl, options, profile, binDir, error_1;
         return tslib_1.__generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     osPlat = os_1["default"].platform();
                     platform = osPlat === 'win32' ? 'windows' : osPlat;
                     suffix = osPlat === 'win32' ? '.exe' : '';
-                    minikubeVersion = core_1.getInput('version');
-                    helmVersion = core_1.getInput('helm-version');
+                    minikubeVersion = core_1.getInput('minikube-version');
                     kubernetesVersion = core_1.getInput('kubernetes-version');
                     minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v" + minikubeVersion + "/minikube-" + platform + "-amd64" + suffix;
                     kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v" + kubernetesVersion + "/bin/" + platform + "/amd64/kubectl" + suffix;
-                    helmUrl = "https://get.helm.sh/helm-v" + helmVersion + "-" + platform + "-amd64.tar.gz";
                     options = {};
                     profile = core_1.getInput('profile');
                     binDir = process.env.HOME + "/bin";
@@ -1116,7 +1114,7 @@ function run() {
                     core_1.exportVariable('MINIKUBE_HOME', (_a = process.env.HOME) !== null && _a !== void 0 ? _a : '/home/runner');
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 7, , 8]);
+                    _b.trys.push([1, 6, , 7]);
                     options.listeners = {
                         stdout: function (data) {
                             var ip = data.toString().trim();
@@ -1133,11 +1131,8 @@ function run() {
                     return [4, download_1["default"](minikubeUrl, binDir + "/minikube")];
                 case 2:
                     _b.sent();
-                    return [4, download_1["default"](helmUrl, binDir + "/helm")];
-                case 3:
-                    _b.sent();
                     return [4, download_1["default"](kubectlUrl, binDir + "/kubectl")];
-                case 4:
+                case 3:
                     _b.sent();
                     return [4, minikube_1["default"]({
                             nodes: Number.parseInt(core_1.getInput('nodes')),
@@ -1147,17 +1142,17 @@ function run() {
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
                             networkPlugin: core_1.getInput('network-plugin')
                         }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
-                case 5:
+                case 4:
                     _b.sent();
                     return [4, tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/.minikube/cache", 'minikube', minikubeVersion)];
-                case 6:
+                case 5:
                     _b.sent();
-                    return [3, 8];
-                case 7:
+                    return [3, 7];
+                case 6:
                     error_1 = _b.sent();
                     core_1.setFailed(error_1.message);
-                    return [3, 8];
-                case 8: return [2];
+                    return [3, 7];
+                case 7: return [2];
             }
         });
     });
