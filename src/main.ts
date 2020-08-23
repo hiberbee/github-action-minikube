@@ -39,10 +39,10 @@ async function run(): Promise<void> {
     await download(minikubeUrl, `${binDir}/minikube`)
     await download(kubectlUrl, `${binDir}/kubectl`)
     await minikube({
-      nodes: Number.parseInt(getInput('nodes')),
+      nodes: parseInt(getInput('nodes')),
       memory: getInput('memory'),
       addons: getInput('addons').split(','),
-      cpus: Number.parseInt(getInput('cpus')),
+      cpus: parseInt(getInput('cpus')),
       kubernetesVersion: getInput('kubernetes-version'),
       networkPlugin: getInput('network-plugin'),
     }).then(() => exec('minikube', ['ip'], options))

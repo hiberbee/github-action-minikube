@@ -1136,10 +1136,10 @@ function run() {
                 case 3:
                     _b.sent();
                     return [4, minikube_1["default"]({
-                            nodes: Number.parseInt(core_1.getInput('nodes')),
+                            nodes: parseInt(core_1.getInput('nodes')),
                             memory: core_1.getInput('memory'),
                             addons: core_1.getInput('addons').split(','),
-                            cpus: Number.parseInt(core_1.getInput('cpus')),
+                            cpus: parseInt(core_1.getInput('cpus')),
                             kubernetesVersion: core_1.getInput('kubernetes-version'),
                             networkPlugin: core_1.getInput('network-plugin')
                         }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
@@ -1467,7 +1467,7 @@ exports.commandLineArgs = void 0;
 var tslib_1 = __webpack_require__(422);
 var exec_1 = __webpack_require__(986);
 function commandLineArgs(args) {
-    var commandLine = args.addons ? args.addons.map(function (value) { return "--addons=" + value; }) : [];
+    var commandLine = args.addons ? args.addons.map(function (value) { return "--addons=" + value; }) : ['--install-addons=false'];
     commandLine = !args.kubernetesVersion
         ? commandLine
         : commandLine.concat("--kubernetes-version=" + args.kubernetesVersion);
@@ -1475,8 +1475,7 @@ function commandLineArgs(args) {
     commandLine = !args.memory ? commandLine : commandLine.concat("--memory=" + args.memory);
     commandLine = !args.cpus ? commandLine : commandLine.concat("--cpus=" + args.cpus);
     commandLine = !args.nodes ? commandLine : commandLine.concat("--nodes=" + args.nodes);
-    commandLine.concat('--install-addons=false', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
-    return commandLine;
+    return commandLine.concat('--embed-certs', '--delete-on-failure=true', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
 }
 exports.commandLineArgs = commandLineArgs;
 function default_1(args) {

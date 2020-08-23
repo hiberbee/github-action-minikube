@@ -10,7 +10,7 @@ export type StartArguments = {
 }
 
 export function commandLineArgs(args: StartArguments): string[] {
-  let commandLine = args.addons ? args.addons.map(value => `--addons=${value}`) : []
+  let commandLine = args.addons ? args.addons.map(value => `--addons=${value}`) : ['--install-addons=false']
   commandLine = !args.kubernetesVersion
     ? commandLine
     : commandLine.concat(`--kubernetes-version=${args.kubernetesVersion}`)
@@ -18,8 +18,13 @@ export function commandLineArgs(args: StartArguments): string[] {
   commandLine = !args.memory ? commandLine : commandLine.concat(`--memory=${args.memory}`)
   commandLine = !args.cpus ? commandLine : commandLine.concat(`--cpus=${args.cpus}`)
   commandLine = !args.nodes ? commandLine : commandLine.concat(`--nodes=${args.nodes}`)
-  commandLine.concat('--install-addons=false', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver')
-  return commandLine
+  return commandLine.concat(
+    '--embed-certs',
+    '--delete-on-failure=true',
+    '--interactive=false',
+    '--auto-update-drivers=false',
+    '--wait=apiserver',
+  )
 }
 
 export default async function (args: StartArguments): Promise<void> {
