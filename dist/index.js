@@ -1,4 +1,4 @@
-module.exports =
+require('./sourcemap-register.js');module.exports =
 /******/ (function(modules, runtime) { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The module cache
@@ -1467,15 +1467,13 @@ exports.commandLineArgs = void 0;
 var tslib_1 = __webpack_require__(422);
 var exec_1 = __webpack_require__(986);
 function commandLineArgs(args) {
-    var commandLine = args.addons ? args.addons.map(function (value) { return "--addons=" + value; }) : ['--install-addons=false'];
-    commandLine = !args.kubernetesVersion
-        ? commandLine
-        : commandLine.concat("--kubernetes-version=" + args.kubernetesVersion);
+    var _a;
+    var commandLine = args.addons.length > 0 ? args.addons.map(function (value) { return "--addons=" + value; }) : ['--install-addons=false'];
     commandLine = !args.networkPlugin ? commandLine : commandLine.concat("--network-plugin=" + args.networkPlugin);
     commandLine = !args.memory ? commandLine : commandLine.concat("--memory=" + args.memory);
     commandLine = !args.cpus ? commandLine : commandLine.concat("--cpus=" + args.cpus);
     commandLine = !args.nodes ? commandLine : commandLine.concat("--nodes=" + args.nodes);
-    return commandLine.concat('--embed-certs', '--delete-on-failure=true', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
+    return commandLine.concat("--kubernetes-version=" + ((_a = args.kubernetesVersion) !== null && _a !== void 0 ? _a : 'stable'), '--embed-certs', '--delete-on-failure=true', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
 }
 exports.commandLineArgs = commandLineArgs;
 function default_1(args) {
@@ -5470,3 +5468,4 @@ exports.exec = exec;
 /***/ })
 
 /******/ });
+//# sourceMappingURL=index.js.map

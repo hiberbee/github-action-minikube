@@ -9,7 +9,7 @@
     "build": "tsc",
     "clean": "rimraf build",
     "lint": "eslint --fix src/**/*.ts",
-    "dist": "ncc build build/main.js",
+    "dist": "ncc build build/main.js --source-map",
     "test": "jest",
     "start": "cross-env RUNNER_TEMP=build node dist/index.js",
     "release": "npm run clean && npm run test && npm run build && npm run dist && npm run clean"
