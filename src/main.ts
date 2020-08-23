@@ -1,10 +1,11 @@
-import { getInput, setFailed, exportVariable, setOutput, error, info } from '@actions/core'
+import { getInput, setFailed, exportVariable, setOutput, error } from '@actions/core'
 import minikube from 'src/minikube'
 import download from 'src/download'
 import { exec } from '@actions/exec'
 import { ExecOptions } from '@actions/exec/lib/interfaces'
 import { cacheDir } from '@actions/tool-cache'
 import os from 'os'
+import path from 'path'
 
 async function run(): Promise<void> {
   const osPlat = os.platform()
@@ -19,7 +20,7 @@ async function run(): Promise<void> {
   const profile = getInput('profile')
   const binDir = `${process.env.HOME}/bin`
   exportVariable('MINIKUBE_PROFILE_NAME', profile)
-  exportVariable('MINIKUBE_HOME', process.env.HOME ?? '/home/runner')
+  exportVariable('MINIKUBE_HOME', path.join(process.env.HOME ?? '/home/runner', '.minikube'))
 
   try {
     options.listeners = {
@@ -45,7 +46,7 @@ async function run(): Promise<void> {
       kubernetesVersion: getInput('kubernetes-version'),
       networkPlugin: getInput('network-plugin'),
     }).then(() => exec('minikube', ['ip'], options))
-    await cacheDir(`${process.env.MINIKUBE_HOME}/.minikube/cache`, 'minikube', minikubeVersion)
+    await cacheDir(`${process.env.MINIKUBE_HOME}/cache`, 'minikube', minikubeVersion)
   } catch (error) {
     setFailed(error.message)
   }

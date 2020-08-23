@@ -1093,6 +1093,7 @@ var download_1 = tslib_1.__importDefault(__webpack_require__(725));
 var exec_1 = __webpack_require__(986);
 var tool_cache_1 = __webpack_require__(533);
 var os_1 = tslib_1.__importDefault(__webpack_require__(87));
+var path_1 = tslib_1.__importDefault(__webpack_require__(622));
 function run() {
     var _a;
     return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1111,7 +1112,7 @@ function run() {
                     profile = core_1.getInput('profile');
                     binDir = process.env.HOME + "/bin";
                     core_1.exportVariable('MINIKUBE_PROFILE_NAME', profile);
-                    core_1.exportVariable('MINIKUBE_HOME', (_a = process.env.HOME) !== null && _a !== void 0 ? _a : '/home/runner');
+                    core_1.exportVariable('MINIKUBE_HOME', path_1["default"].join((_a = process.env.HOME) !== null && _a !== void 0 ? _a : '/home/runner', '.minikube'));
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 6, , 7]);
@@ -1144,7 +1145,7 @@ function run() {
                         }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
                 case 4:
                     _b.sent();
-                    return [4, tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/.minikube/cache", 'minikube', minikubeVersion)];
+                    return [4, tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/cache", 'minikube', minikubeVersion)];
                 case 5:
                     _b.sent();
                     return [3, 7];
