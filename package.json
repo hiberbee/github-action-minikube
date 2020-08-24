@@ -53,7 +53,7 @@
     "@types/jest": "^26.0.10",
     "@types/node": "^14.6.0",
     "@typescript-eslint/eslint-plugin": "^4.0.0-alpha.12",
-    "@typescript-eslint/parser": "^4.0.0-alpha.12",
+    "@typescript-eslint/parser": "^4.0.0-alpha.14",
     "@zeit/ncc": "^0.22.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.7.0",
