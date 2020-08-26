@@ -1,12 +1,13 @@
-name: Minikube workflow
+name: Minikube CI
 on:
   push:
     paths:
-      - dist/index.js
-      - .github/workflows/minikube.yml
+      - src/**
+      - action.yml
+      - .github/workflows/**
 jobs:
-  minikube:
-    name: Start Kubernetes cluster
+  start:
+    name: Start K8s cluster
     runs-on: ubuntu-20.04
     steps:
       - name: Start Minikube

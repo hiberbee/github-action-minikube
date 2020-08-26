@@ -1,4 +1,4 @@
-require('./sourcemap-register.js');module.exports =
+module.exports =
 /******/ (function(modules, runtime) { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The module cache
@@ -40,7 +40,7 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(102);
+/******/ 		return __webpack_require__(758);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -1080,89 +1080,6 @@ module.exports = require("os");
 
 /***/ }),
 
-/***/ 102:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-var tslib_1 = __webpack_require__(422);
-var core_1 = __webpack_require__(470);
-var minikube_1 = tslib_1.__importDefault(__webpack_require__(160));
-var download_1 = tslib_1.__importDefault(__webpack_require__(725));
-var exec_1 = __webpack_require__(986);
-var tool_cache_1 = __webpack_require__(533);
-var os_1 = tslib_1.__importDefault(__webpack_require__(87));
-var path_1 = tslib_1.__importDefault(__webpack_require__(622));
-function run() {
-    var _a;
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var osPlat, platform, suffix, minikubeVersion, kubernetesVersion, minikubeUrl, kubectlUrl, options, profile, binDir, error_1;
-        return tslib_1.__generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    osPlat = os_1["default"].platform();
-                    platform = osPlat === 'win32' ? 'windows' : osPlat;
-                    suffix = osPlat === 'win32' ? '.exe' : '';
-                    minikubeVersion = core_1.getInput('minikube-version');
-                    kubernetesVersion = core_1.getInput('kubernetes-version');
-                    minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v" + minikubeVersion + "/minikube-" + platform + "-amd64" + suffix;
-                    kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v" + kubernetesVersion + "/bin/" + platform + "/amd64/kubectl" + suffix;
-                    options = {};
-                    profile = core_1.getInput('profile');
-                    binDir = process.env.HOME + "/bin";
-                    core_1.exportVariable('MINIKUBE_PROFILE_NAME', profile);
-                    core_1.exportVariable('MINIKUBE_HOME', path_1["default"].join((_a = process.env.HOME) !== null && _a !== void 0 ? _a : '/home/runner', '.minikube'));
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 6, , 7]);
-                    options.listeners = {
-                        stdout: function (data) {
-                            var ip = data.toString().trim();
-                            core_1.exportVariable('DOCKER_HOST', "tcp://" + ip + ":2376");
-                            core_1.exportVariable('DOCKER_TLS_VERIFY', '1');
-                            core_1.exportVariable('DOCKER_CERT_PATH', process.env.MINIKUBE_HOME + "/certs");
-                            core_1.exportVariable('MINIKUBE_ACTIVE_DOCKERD', profile);
-                            core_1.setOutput('ip', ip);
-                        },
-                        stderr: function (data) {
-                            core_1.error(data.toString());
-                        }
-                    };
-                    return [4, download_1["default"](minikubeUrl, binDir + "/minikube")];
-                case 2:
-                    _b.sent();
-                    return [4, download_1["default"](kubectlUrl, binDir + "/kubectl")];
-                case 3:
-                    _b.sent();
-                    return [4, minikube_1["default"]({
-                            nodes: parseInt(core_1.getInput('nodes')),
-                            memory: core_1.getInput('memory'),
-                            addons: core_1.getInput('addons').split(','),
-                            cpus: parseInt(core_1.getInput('cpus')),
-                            kubernetesVersion: core_1.getInput('kubernetes-version'),
-                            networkPlugin: core_1.getInput('network-plugin')
-                        }).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
-                case 4:
-                    _b.sent();
-                    return [4, tool_cache_1.cacheDir(process.env.MINIKUBE_HOME + "/cache", 'minikube', minikubeVersion)];
-                case 5:
-                    _b.sent();
-                    return [3, 7];
-                case 6:
-                    error_1 = _b.sent();
-                    core_1.setFailed(error_1.message);
-                    return [3, 7];
-                case 7: return [2];
-            }
-        });
-    });
-}
-run();
-//# sourceMappingURL=main.js.map
-
-/***/ }),
-
 /***/ 129:
 /***/ (function(module) {
 
@@ -1457,42 +1374,6 @@ exports.debug = debug; // for test
 
 /***/ }),
 
-/***/ 160:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-exports.__esModule = true;
-exports.commandLineArgs = void 0;
-var tslib_1 = __webpack_require__(422);
-var exec_1 = __webpack_require__(986);
-function commandLineArgs(args) {
-    var _a;
-    var commandLine = args.addons.length > 0 ? args.addons.map(function (value) { return "--addons=" + value; }) : ['--install-addons=false'];
-    commandLine = !args.networkPlugin ? commandLine : commandLine.concat("--network-plugin=" + args.networkPlugin);
-    commandLine = !args.memory ? commandLine : commandLine.concat("--memory=" + args.memory);
-    commandLine = !args.cpus ? commandLine : commandLine.concat("--cpus=" + args.cpus);
-    commandLine = !args.nodes ? commandLine : commandLine.concat("--nodes=" + args.nodes);
-    return commandLine.concat("--kubernetes-version=" + ((_a = args.kubernetesVersion) !== null && _a !== void 0 ? _a : 'stable'), '--embed-certs', '--delete-on-failure=true', '--interactive=false', '--auto-update-drivers=false', '--wait=apiserver');
-}
-exports.commandLineArgs = commandLineArgs;
-function default_1(args) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
-        return tslib_1.__generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4, exec_1.exec('minikube', commandLineArgs(args).concat('start'))];
-                case 1:
-                    _a.sent();
-                    return [2];
-            }
-        });
-    });
-}
-exports["default"] = default_1;
-
-
-/***/ }),
-
 /***/ 211:
 /***/ (function(module) {
 
@@ -1504,6 +1385,76 @@ module.exports = require("https");
 /***/ (function(module) {
 
 module.exports = require("assert");
+
+/***/ }),
+
+/***/ 362:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+exports.__esModule = true;
+exports.download = exports.getWorkspaceDir = exports.getOsPlatform = exports.getBinDir = exports.getHomeDir = void 0;
+var tslib_1 = __webpack_require__(422);
+var path_1 = __webpack_require__(622);
+var os_1 = __webpack_require__(87);
+var tool_cache_1 = __webpack_require__(533);
+var io_1 = __webpack_require__(1);
+var exec_1 = __webpack_require__(986);
+var core_1 = __webpack_require__(470);
+function getHomeDir() {
+    var _a, _b;
+    return (_b = (_a = process.env.HOME) !== null && _a !== void 0 ? _a : process.env.USERPROFILE) !== null && _b !== void 0 ? _b : path_1.join(__dirname, '..');
+}
+exports.getHomeDir = getHomeDir;
+function getBinDir() {
+    return path_1.join(getHomeDir(), 'bin');
+}
+exports.getBinDir = getBinDir;
+function getOsPlatform() {
+    return os_1.platform() === 'win32' ? 'windows' : os_1.platform().toLowerCase();
+}
+exports.getOsPlatform = getOsPlatform;
+function getWorkspaceDir() {
+    var _a;
+    return (_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : path_1.join(__dirname, '..');
+}
+exports.getWorkspaceDir = getWorkspaceDir;
+function download(url, destination) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var downloadPath, destinationDir;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4, tool_cache_1.downloadTool(url)];
+                case 1:
+                    downloadPath = _a.sent();
+                    destinationDir = path_1.dirname(destination);
+                    return [4, io_1.mkdirP(destinationDir)];
+                case 2:
+                    _a.sent();
+                    if (!(url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz'))) return [3, 5];
+                    return [4, exec_1.exec('tar', ['-xzf', downloadPath, "--strip=1"])];
+                case 3:
+                    _a.sent();
+                    return [4, io_1.mv(path_1.basename(destination), destinationDir)];
+                case 4:
+                    _a.sent();
+                    return [3, 7];
+                case 5: return [4, io_1.mv(downloadPath, destination)];
+                case 6:
+                    _a.sent();
+                    _a.label = 7;
+                case 7: return [4, exec_1.exec('chmod', ['+x', destination])];
+                case 8:
+                    _a.sent();
+                    core_1.addPath(destinationDir);
+                    return [2, downloadPath];
+            }
+        });
+    });
+}
+exports.download = download;
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -5166,7 +5117,14 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
-/***/ 725:
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 758:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
@@ -5176,50 +5134,88 @@ var tslib_1 = __webpack_require__(422);
 var core_1 = __webpack_require__(470);
 var exec_1 = __webpack_require__(986);
 var tool_cache_1 = __webpack_require__(533);
-var io_1 = __webpack_require__(1);
-var path_1 = tslib_1.__importDefault(__webpack_require__(622));
-function default_1(url, destination) {
+var path_1 = __webpack_require__(622);
+var index_1 = __webpack_require__(362);
+var MinikubeArgs;
+(function (MinikubeArgs) {
+    MinikubeArgs["WAIT"] = "--wait";
+    MinikubeArgs["AUTO_UPDATE_DRIVERS"] = "--auto-update-drivers";
+    MinikubeArgs["INTERACTIVE"] = "--interactive";
+    MinikubeArgs["DELETE_ON_FAILURE"] = "--delete-on-failure";
+    MinikubeArgs["CPUS"] = "--cpus";
+    MinikubeArgs["MEMORY"] = "--memory";
+    MinikubeArgs["NODES"] = "--nodes";
+    MinikubeArgs["NETWORK_PLUGIN"] = "--network-plugin";
+    MinikubeArgs["KUBERNETES_VERSION"] = "--kubernetes-version";
+})(MinikubeArgs || (MinikubeArgs = {}));
+var homeDir = index_1.getHomeDir();
+var binDir = index_1.getBinDir();
+var minikubeHomeDir = path_1.join(homeDir, '.minikube');
+var platform = index_1.getOsPlatform();
+var suffix = platform === 'win32' ? '.exe' : '';
+function getArgsFromInput() {
+    return ['start', '--embed-certs']
+        .concat(Object.values(MinikubeArgs)
+        .filter(function (key) { return core_1.getInput(key) !== ''; })
+        .map(function (key) { return "--" + key + "=" + core_1.getInput(key); }))
+        .concat(core_1.getInput('addons').split(','))
+        .map(function (key) { return "--addons=" + key; });
+}
+function run() {
+    var _a, _b;
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var downloadPath, destinationDir;
-        return tslib_1.__generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4, tool_cache_1.downloadTool(url)];
+        var minikubeVersion, kubernetesVersion, minikubeUrl, kubectlUrl, options, profile, error_1;
+        return tslib_1.__generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    minikubeVersion = (_a = core_1.getInput('minikube-version')) !== null && _a !== void 0 ? _a : '1.12.3';
+                    kubernetesVersion = (_b = core_1.getInput('kubernetes-version')) !== null && _b !== void 0 ? _b : '1.18.8';
+                    minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v" + minikubeVersion + "/minikube-" + platform + "-amd64" + suffix;
+                    kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v" + kubernetesVersion + "/bin/" + platform + "/amd64/kubectl" + suffix;
+                    options = {};
+                    profile = core_1.getInput('profile');
+                    _c.label = 1;
                 case 1:
-                    downloadPath = _a.sent();
-                    destinationDir = path_1["default"].dirname(destination);
-                    return [4, io_1.mkdirP(destinationDir)];
+                    _c.trys.push([1, 6, , 7]);
+                    core_1.exportVariable('MINIKUBE_PROFILE_NAME', profile);
+                    core_1.exportVariable('MINIKUBE_HOME', minikubeHomeDir);
+                    options.listeners = {
+                        stdout: function (data) {
+                            var ip = data.toString().trim();
+                            core_1.exportVariable('DOCKER_HOST', "tcp://" + ip + ":2376");
+                            core_1.exportVariable('DOCKER_TLS_VERIFY', '1');
+                            core_1.exportVariable('DOCKER_CERT_PATH', path_1.join(minikubeHomeDir, 'certs'));
+                            core_1.exportVariable('MINIKUBE_ACTIVE_DOCKERD', profile);
+                            core_1.setOutput('ip', ip);
+                        },
+                        stderr: function (data) {
+                            core_1.error(data.toString());
+                        }
+                    };
+                    return [4, index_1.download(minikubeUrl, path_1.join(binDir, 'minikube'))];
                 case 2:
-                    _a.sent();
-                    if (!(url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz'))) return [3, 5];
-                    return [4, exec_1.exec('tar', ['-xzvf', downloadPath, "--strip=1"])];
+                    _c.sent();
+                    return [4, index_1.download(kubectlUrl, path_1.join(binDir, 'kubectl'))];
                 case 3:
-                    _a.sent();
-                    return [4, io_1.mv(path_1["default"].basename(destination), destinationDir)];
+                    _c.sent();
+                    return [4, tool_cache_1.cacheDir(path_1.join(minikubeHomeDir, 'cache'), 'minikube', minikubeVersion)];
                 case 4:
-                    _a.sent();
+                    _c.sent();
+                    return [4, exec_1.exec('minikube', getArgsFromInput()).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
+                case 5:
+                    _c.sent();
                     return [3, 7];
-                case 5: return [4, io_1.mv(downloadPath, destination)];
                 case 6:
-                    _a.sent();
-                    _a.label = 7;
-                case 7: return [4, exec_1.exec('chmod', ['+x', destination])];
-                case 8:
-                    _a.sent();
-                    core_1.addPath(destinationDir);
-                    return [2, downloadPath];
+                    error_1 = _c.sent();
+                    core_1.setFailed(error_1.message);
+                    return [3, 7];
+                case 7: return [2];
             }
         });
     });
 }
-exports["default"] = default_1;
-
-
-/***/ }),
-
-/***/ 747:
-/***/ (function(module) {
-
-module.exports = require("fs");
+run();
+//# sourceMappingURL=minikube.js.map
 
 /***/ }),
 
@@ -5468,4 +5464,3 @@ exports.exec = exec;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map

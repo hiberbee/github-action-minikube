@@ -21,6 +21,22 @@ inputs:
     default: ''
     description: Comma-separated list of addons (i.e. metrics-server,registry,ingress,dashboard)
     required: false
+  auto-update-drivers:
+    default: 'false'
+    description: Automatically updates drivers to the latest version
+    required: false
+  delete-on-failure:
+    default: 'true'
+    description: Delete the current cluster if start fails and try again
+    required: false
+  interactive:
+    default: 'false'
+    description: Allow user prompts for more information
+    required: false
+  wait:
+    default: 'apiserver'
+    description: Comma separated list of Kubernetes components to verify and wait for after starting a cluster
+    required: false
   nodes:
     default: '1'
     description: Set number of cluster nodes
