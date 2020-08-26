@@ -5198,10 +5198,10 @@ function run() {
                     return [4, index_1.download(kubectlUrl, path_1.join(binDir, 'kubectl'))];
                 case 3:
                     _c.sent();
-                    return [4, tool_cache_1.cacheDir(path_1.join(minikubeHomeDir, 'cache'), 'minikube', minikubeVersion)];
+                    return [4, exec_1.exec('minikube', getArgsFromInput()).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
                 case 4:
                     _c.sent();
-                    return [4, exec_1.exec('minikube', getArgsFromInput()).then(function () { return exec_1.exec('minikube', ['ip'], options); })];
+                    return [4, tool_cache_1.cacheDir(path_1.join(minikubeHomeDir, 'cache'), 'minikube', minikubeVersion)];
                 case 5:
                     _c.sent();
                     return [3, 7];
