@@ -1,5 +1,11 @@
 # Github Action Minikube
 
+<p align="center">
+  <img src="https://img.shields.io/github/license/hiberbee/github-action-minikube?style=flat-square" alt="License">
+  <img src="https://img.shields.io/github/workflow/status/hiberbee/github-action-minikube/CI?label=github-actions&style=flat-square" alt="GitHub Action Status">
+  <img src="https://img.shields.io/github/v/tag/hiberbee/github-action-minikube?label=hiberbee%2Fgithub-action-minikube&style=flat-square" alt="GitHub Workflow Version">
+</p>
+
 Downloads `minikube` and `kubectl` binaries, then set up Minikube cluster for Github Actions.
 
 ## Inputs
@@ -75,8 +81,3 @@ jobs:
         with:
           helm-command: list
 ```
-
-## Companion Actions
-
-- [`hiberbee/github-action-skaffold@latest`](https://github.com/hiberbee/github-action-skaffold)
-- [`hiberbee/github-action-helm@latest`](https://github.com/hiberbee/github-action-helm)
