@@ -5154,12 +5154,14 @@ var minikubeHomeDir = path_1.join(homeDir, '.minikube');
 var platform = index_1.getOsPlatform();
 var suffix = platform === 'win32' ? '.exe' : '';
 function getArgsFromInput() {
+    var addons = core_1.getInput('addons')
+        .split(',')
+        .filter(function (item) { return item !== ''; });
     return ['start', '--embed-certs']
         .concat(Object.values(MinikubeArgs)
         .filter(function (key) { return core_1.getInput(key) !== ''; })
         .map(function (key) { return "--" + key + "=" + core_1.getInput(key); }))
-        .concat(core_1.getInput('addons').split(','))
-        .map(function (key) { return "--addons=" + key; });
+        .concat(addons.length > 0 ? addons.map(function (key) { return "--addons=" + key; }) : '');
 }
 function run() {
     var _a, _b;
