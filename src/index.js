@@ -5235,8 +5235,8 @@ function run() {
         return tslib_1.__generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    minikubeVersion = (_a = core_1.getInput('minikube-version')) !== null && _a !== void 0 ? _a : '1.12.3';
-                    kubernetesVersion = (_b = core_1.getInput('kubernetes-version')) !== null && _b !== void 0 ? _b : '1.18.8';
+                    minikubeVersion = (_a = core_1.getInput('minikube-version')) !== null && _a !== void 0 ? _a : '1.18.0';
+                    kubernetesVersion = (_b = core_1.getInput('kubernetes-version')) !== null && _b !== void 0 ? _b : '1.20.0';
                     minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v" + minikubeVersion + "/minikube-" + platform + "-amd64" + suffix;
                     kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v" + kubernetesVersion + "/bin/" + platform + "/amd64/kubectl" + suffix;
                     options = {};
