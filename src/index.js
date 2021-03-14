@@ -1522,7 +1522,7 @@ module.exports = require("assert");
 "use strict";
 
 exports.__esModule = true;
-exports.download = exports.getWorkspaceDir = exports.getOsPlatform = exports.getBinDir = exports.getHomeDir = void 0;
+exports.download = exports.getWorkspaceDir = exports.getOsPlatform = exports.getBinDir = void 0;
 var tslib_1 = __webpack_require__(422);
 var path_1 = __webpack_require__(622);
 var os_1 = __webpack_require__(87);
@@ -1530,13 +1530,8 @@ var tool_cache_1 = __webpack_require__(533);
 var io_1 = __webpack_require__(1);
 var exec_1 = __webpack_require__(986);
 var core_1 = __webpack_require__(470);
-function getHomeDir() {
-    var _a, _b;
-    return (_b = (_a = process.env.HOME) !== null && _a !== void 0 ? _a : process.env.USERPROFILE) !== null && _b !== void 0 ? _b : path_1.join(__dirname, '..');
-}
-exports.getHomeDir = getHomeDir;
-function getBinDir() {
-    return path_1.join(getHomeDir(), 'bin');
+function getBinDir(rootDir) {
+    return path_1.join(rootDir, 'bin');
 }
 exports.getBinDir = getBinDir;
 function getOsPlatform() {
@@ -5279,8 +5274,8 @@ var MinikubeArgs;
     MinikubeArgs["NETWORK_PLUGIN"] = "network-plugin";
     MinikubeArgs["KUBERNETES_VERSION"] = "kubernetes-version";
 })(MinikubeArgs || (MinikubeArgs = {}));
-var homeDir = index_1.getHomeDir();
-var binDir = index_1.getBinDir();
+var homeDir = index_1.getWorkspaceDir();
+var binDir = index_1.getBinDir(homeDir);
 var minikubeHomeDir = path_1.join(homeDir, '.minikube');
 var platform = index_1.getOsPlatform();
 var suffix = platform === 'win32' ? '.exe' : '';
