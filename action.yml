@@ -6,16 +6,20 @@ branding:
   color: blue
 inputs:
   minikube-version:
-    default: 1.22.0
+    default: 1.23.1
     description: Set minikube version
     required: false
   kubernetes-version:
-    default: 1.22.1
+    default: 1.22.2
     description: Set Kubernetes version
     required: false
   profile:
     default: minikube
     description: Set minikube profile name
+    required: false
+  concurrency:
+    default: '0'
+    description: Number of concurrently running builds. Set to 0 to run all builds in parallel. Doesn't violate build order among dependencies.
     required: false
   addons:
     default: ''
@@ -43,10 +47,6 @@ inputs:
     required: false
   cpus:
     default: '2'
-    description: Number of CPUs allocated to Kubernetes
-    required: false
-  memory:
-    default: '3g'
     description: Number of CPUs allocated to Kubernetes
     required: false
   network-plugin:

@@ -1696,7 +1696,6 @@ var MinikubeArgs;
     MinikubeArgs["INTERACTIVE"] = "interactive";
     MinikubeArgs["DELETE_ON_FAILURE"] = "delete-on-failure";
     MinikubeArgs["CPUS"] = "cpus";
-    MinikubeArgs["MEMORY"] = "memory";
     MinikubeArgs["NODES"] = "nodes";
     MinikubeArgs["NETWORK_PLUGIN"] = "network-plugin";
     MinikubeArgs["KUBERNETES_VERSION"] = "kubernetes-version";
@@ -1717,21 +1716,20 @@ function getArgsFromInput() {
         .concat(addons.length > 0 ? addons.map(function (key) { return "--addons=" + key; }) : '');
 }
 function run() {
-    var _a, _b;
     return (0, tslib_1.__awaiter)(this, void 0, void 0, function () {
         var minikubeVersion, kubernetesVersion, minikubeUrl, kubectlUrl, options, profile, error_1;
-        return (0, tslib_1.__generator)(this, function (_c) {
-            switch (_c.label) {
+        return (0, tslib_1.__generator)(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    minikubeVersion = (_a = (0, core_1.getInput)('minikube-version')) !== null && _a !== void 0 ? _a : '1.18.0';
-                    kubernetesVersion = (_b = (0, core_1.getInput)('kubernetes-version')) !== null && _b !== void 0 ? _b : '1.20.0';
+                    minikubeVersion = (0, core_1.getInput)('minikube-version');
+                    kubernetesVersion = (0, core_1.getInput)('kubernetes-version');
                     minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v" + minikubeVersion + "/minikube-" + platform + "-amd64" + suffix;
                     kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v" + kubernetesVersion + "/bin/" + platform + "/amd64/kubectl" + suffix;
                     options = {};
                     profile = (0, core_1.getInput)('profile');
-                    _c.label = 1;
+                    _a.label = 1;
                 case 1:
-                    _c.trys.push([1, 6, , 7]);
+                    _a.trys.push([1, 6, , 7]);
                     (0, core_1.exportVariable)('MINIKUBE_PROFILE_NAME', profile);
                     (0, core_1.exportVariable)('MINIKUBE_HOME', minikubeHomeDir);
                     options.listeners = {
@@ -1749,19 +1747,19 @@ function run() {
                     };
                     return [4, (0, index_1.download)(minikubeUrl, (0, path_1.join)(binDir, 'minikube'))];
                 case 2:
-                    _c.sent();
+                    _a.sent();
                     return [4, (0, index_1.download)(kubectlUrl, (0, path_1.join)(binDir, 'kubectl'))];
                 case 3:
-                    _c.sent();
+                    _a.sent();
                     return [4, (0, exec_1.exec)('minikube', getArgsFromInput()).then(function () { return (0, exec_1.exec)('minikube', ['ip'], options); })];
                 case 4:
-                    _c.sent();
+                    _a.sent();
                     return [4, (0, tool_cache_1.cacheDir)((0, path_1.join)(minikubeHomeDir, 'cache'), 'minikube', minikubeVersion)];
                 case 5:
-                    _c.sent();
+                    _a.sent();
                     return [3, 7];
                 case 6:
-                    error_1 = _c.sent();
+                    error_1 = _a.sent();
                     (0, core_1.setFailed)(error_1.message);
                     return [3, 7];
                 case 7: return [2];
