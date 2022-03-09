@@ -1586,59 +1586,59 @@ var MinikubeArgs;
 })(MinikubeArgs || (MinikubeArgs = {}));
 var homeDir = (0, index_1.getWorkspaceDir)();
 var binDir = (0, index_1.getBinDir)(homeDir);
-var minikubeHomeDir = (0, path_1.join)(homeDir, '.minikube');
+var minikubeHomeDir = (0, path_1.join)(homeDir, ".minikube");
 var platform = (0, index_1.getOsPlatform)();
-var suffix = platform === 'win32' ? '.exe' : '';
+var suffix = platform === "win32" ? ".exe" : "";
 function getArgsFromInput() {
-    var addons = (0, core_1.getInput)('addons')
-        .split(',')
-        .filter(function (item) { return item !== ''; });
-    return ['start', '--embed-certs']
+    var addons = (0, core_1.getInput)("addons")
+        .split(",")
+        .filter(function (item) { return item !== ""; });
+    return ["start", "--embed-certs"]
         .concat(Object.values(MinikubeArgs)
-        .filter(function (key) { return (0, core_1.getInput)(key) !== ''; })
+        .filter(function (key) { return (0, core_1.getInput)(key) !== ""; })
         .map(function (key) { return "--".concat(key, "=").concat((0, core_1.getInput)(key)); }))
-        .concat(addons.length > 0 ? addons.map(function (key) { return "--addons=".concat(key); }) : '');
+        .concat(addons.length > 0 ? addons.map(function (key) { return "--addons=".concat(key); }) : "");
 }
 function run() {
-    return (0, tslib_1.__awaiter)(this, void 0, void 0, function () {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
         var minikubeVersion, kubernetesVersion, minikubeUrl, kubectlUrl, options, profile, error_1;
-        return (0, tslib_1.__generator)(this, function (_a) {
+        return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    minikubeVersion = (0, core_1.getInput)('minikube-version');
-                    kubernetesVersion = (0, core_1.getInput)('kubernetes-version');
+                    minikubeVersion = (0, core_1.getInput)("minikube-version");
+                    kubernetesVersion = (0, core_1.getInput)("kubernetes-version");
                     minikubeUrl = "https://github.com/kubernetes/minikube/releases/download/v".concat(minikubeVersion, "/minikube-").concat(platform, "-amd64").concat(suffix);
                     kubectlUrl = "https://storage.googleapis.com/kubernetes-release/release/v".concat(kubernetesVersion, "/bin/").concat(platform, "/amd64/kubectl").concat(suffix);
                     options = {};
-                    profile = (0, core_1.getInput)('profile');
+                    profile = (0, core_1.getInput)("profile");
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);
-                    (0, core_1.exportVariable)('MINIKUBE_PROFILE_NAME', profile);
-                    (0, core_1.exportVariable)('MINIKUBE_HOME', minikubeHomeDir);
+                    (0, core_1.exportVariable)("MINIKUBE_PROFILE_NAME", profile);
+                    (0, core_1.exportVariable)("MINIKUBE_HOME", minikubeHomeDir);
                     options.listeners = {
                         stdout: function (data) {
                             var ip = data.toString().trim();
-                            (0, core_1.exportVariable)('DOCKER_HOST', "tcp://".concat(ip, ":2376"));
-                            (0, core_1.exportVariable)('DOCKER_TLS_VERIFY', '1');
-                            (0, core_1.exportVariable)('DOCKER_CERT_PATH', (0, path_1.join)(minikubeHomeDir, 'certs'));
-                            (0, core_1.exportVariable)('MINIKUBE_ACTIVE_DOCKERD', profile);
-                            (0, core_1.setOutput)('ip', ip);
+                            (0, core_1.exportVariable)("DOCKER_HOST", "tcp://".concat(ip, ":2376"));
+                            (0, core_1.exportVariable)("DOCKER_TLS_VERIFY", "1");
+                            (0, core_1.exportVariable)("DOCKER_CERT_PATH", (0, path_1.join)(minikubeHomeDir, "certs"));
+                            (0, core_1.exportVariable)("MINIKUBE_ACTIVE_DOCKERD", profile);
+                            (0, core_1.setOutput)("ip", ip);
                         },
                         stderr: function (data) {
                             (0, core_1.error)(data.toString());
                         }
                     };
-                    return [4, (0, index_1.download)(minikubeUrl, (0, path_1.join)(binDir, 'minikube'))];
+                    return [4, (0, index_1.download)(minikubeUrl, (0, path_1.join)(binDir, "minikube"))];
                 case 2:
                     _a.sent();
-                    return [4, (0, index_1.download)(kubectlUrl, (0, path_1.join)(binDir, 'kubectl'))];
+                    return [4, (0, index_1.download)(kubectlUrl, (0, path_1.join)(binDir, "kubectl"))];
                 case 3:
                     _a.sent();
-                    return [4, (0, exec_1.exec)('minikube', getArgsFromInput()).then(function () { return (0, exec_1.exec)('minikube', ['ip'], options); })];
+                    return [4, (0, exec_1.exec)("minikube", getArgsFromInput()).then(function () { return (0, exec_1.exec)("minikube", ["ip"], options); })];
                 case 4:
                     _a.sent();
-                    return [4, (0, tool_cache_1.cacheDir)((0, path_1.join)(minikubeHomeDir, 'cache'), 'minikube', minikubeVersion)];
+                    return [4, (0, tool_cache_1.cacheDir)((0, path_1.join)(minikubeHomeDir, "cache"), "minikube", minikubeVersion)];
                 case 5:
                     _a.sent();
                     return [3, 7];
@@ -3658,22 +3658,22 @@ var io_1 = __webpack_require__(1);
 var exec_1 = __webpack_require__(986);
 var core_1 = __webpack_require__(470);
 function getBinDir(rootDir) {
-    return (0, path_1.join)(rootDir, 'bin');
+    return (0, path_1.join)(rootDir, "bin");
 }
 exports.getBinDir = getBinDir;
 function getOsPlatform() {
-    return (0, os_1.platform)() === 'win32' ? 'windows' : (0, os_1.platform)().toLowerCase();
+    return (0, os_1.platform)() === "win32" ? "windows" : (0, os_1.platform)().toLowerCase();
 }
 exports.getOsPlatform = getOsPlatform;
 function getWorkspaceDir() {
     var _a;
-    return (_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : (0, path_1.join)(__dirname, '..');
+    return (_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : (0, path_1.join)(__dirname, "..");
 }
 exports.getWorkspaceDir = getWorkspaceDir;
 function download(url, destination) {
-    return (0, tslib_1.__awaiter)(this, void 0, void 0, function () {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
         var downloadPath, destinationDir;
-        return (0, tslib_1.__generator)(this, function (_a) {
+        return tslib_1.__generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4, (0, tool_cache_1.downloadTool)(url)];
                 case 1:
@@ -3682,8 +3682,8 @@ function download(url, destination) {
                     return [4, (0, io_1.mkdirP)(destinationDir)];
                 case 2:
                     _a.sent();
-                    if (!(url.endsWith('tar.gz') || url.endsWith('tar') || url.endsWith('tgz'))) return [3, 5];
-                    return [4, (0, exec_1.exec)('tar', ['-xzf', downloadPath, "--strip=1"])];
+                    if (!(url.endsWith("tar.gz") || url.endsWith("tar") || url.endsWith("tgz"))) return [3, 5];
+                    return [4, (0, exec_1.exec)("tar", ["-xzf", downloadPath, "--strip=1"])];
                 case 3:
                     _a.sent();
                     return [4, (0, io_1.mv)((0, path_1.basename)(destination), destinationDir)];
@@ -3694,7 +3694,7 @@ function download(url, destination) {
                 case 6:
                     _a.sent();
                     _a.label = 7;
-                case 7: return [4, (0, exec_1.exec)('chmod', ['+x', destination])];
+                case 7: return [4, (0, exec_1.exec)("chmod", ["+x", destination])];
                 case 8:
                     _a.sent();
                     (0, core_1.addPath)(destinationDir);
@@ -3975,7 +3975,6 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-
 /* global global, define, System, Reflect, Promise */
 var __extends;
 var __assign;
@@ -3990,6 +3989,7 @@ var __values;
 var __read;
 var __spread;
 var __spreadArrays;
+var __spreadArray;
 var __await;
 var __asyncGenerator;
 var __asyncDelegator;
@@ -4026,9 +4026,11 @@ var __createBinding;
 (function (exporter) {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
 
     __extends = function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -4107,14 +4109,17 @@ var __createBinding;
         }
     };
 
-    __createBinding = function(o, m, k, k2) {
-        if (k2 === undefined) k2 = k;
-        o[k2] = m[k];
+    __exportStar = function(m, o) {
+        for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
     };
 
-    __exportStar = function (m, exports) {
-        for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
-    };
+    __createBinding = Object.create ? (function(o, m, k, k2) {
+        if (k2 === undefined) k2 = k;
+        Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    }) : (function(o, m, k, k2) {
+        if (k2 === undefined) k2 = k;
+        o[k2] = m[k];
+    });
 
     __values = function (o) {
         var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
@@ -4145,18 +4150,30 @@ var __createBinding;
         return ar;
     };
 
+    /** @deprecated */
     __spread = function () {
         for (var ar = [], i = 0; i < arguments.length; i++)
             ar = ar.concat(__read(arguments[i]));
         return ar;
     };
 
+    /** @deprecated */
     __spreadArrays = function () {
         for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
         for (var r = Array(s), k = 0, i = 0; i < il; i++)
             for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
                 r[k] = a[j];
         return r;
+    };
+
+    __spreadArray = function (to, from, pack) {
+        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+            if (ar || !(i in from)) {
+                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+            }
+        }
+        return to.concat(ar || Array.prototype.slice.call(from));
     };
 
     __await = function (v) {
@@ -4194,11 +4211,17 @@ var __createBinding;
         return cooked;
     };
 
+    var __setModuleDefault = Object.create ? (function(o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+    }) : function(o, v) {
+        o["default"] = v;
+    };
+
     __importStar = function (mod) {
         if (mod && mod.__esModule) return mod;
         var result = {};
-        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-        result["default"] = mod;
+        if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+        __setModuleDefault(result, mod);
         return result;
     };
 
@@ -4206,19 +4229,17 @@ var __createBinding;
         return (mod && mod.__esModule) ? mod : { "default": mod };
     };
 
-    __classPrivateFieldGet = function (receiver, privateMap) {
-        if (!privateMap.has(receiver)) {
-            throw new TypeError("attempted to get private field on non-instance");
-        }
-        return privateMap.get(receiver);
+    __classPrivateFieldGet = function (receiver, state, kind, f) {
+        if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+        return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
     };
 
-    __classPrivateFieldSet = function (receiver, privateMap, value) {
-        if (!privateMap.has(receiver)) {
-            throw new TypeError("attempted to set private field on non-instance");
-        }
-        privateMap.set(receiver, value);
-        return value;
+    __classPrivateFieldSet = function (receiver, state, value, kind, f) {
+        if (kind === "m") throw new TypeError("Private method is not writable");
+        if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+        if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+        return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
     };
 
     exporter("__extends", __extends);
@@ -4235,6 +4256,7 @@ var __createBinding;
     exporter("__read", __read);
     exporter("__spread", __spread);
     exporter("__spreadArrays", __spreadArrays);
+    exporter("__spreadArray", __spreadArray);
     exporter("__await", __await);
     exporter("__asyncGenerator", __asyncGenerator);
     exporter("__asyncDelegator", __asyncDelegator);

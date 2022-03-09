@@ -6,11 +6,11 @@ branding:
   color: blue
 inputs:
   minikube-version:
-    default: 1.23.2
+    default: 1.25.2
     description: Set minikube version
     required: false
   kubernetes-version:
-    default: 1.22.2
+    default: 1.23.4
     description: Set Kubernetes version
     required: false
   profile:
@@ -57,5 +57,5 @@ outputs:
   ip:
     description: Minikube IP
 runs:
-  using: node12
+  using: node16
   main: src/index.js
